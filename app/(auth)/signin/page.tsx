@@ -1,9 +1,32 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import axios from "axios";
 import Link from "next/link";
+import { FormEvent, useState } from "react";
 
 export default function Signin() {
+  const [loading, setLoading] = useState(false);
+
+  const [form,setForm] = useState({
+    email: "",
+    password: "",
+  })
+
+  console.log(form)
+
+  const handleFormSubmit = async (e:FormEvent) => {
+    e.preventDefault();
+    setLoading(true)
+    try {
+      const res = await axios.post("/api/user/signin",form)
+      console.log(res)
+    } catch (err:any) {
+      console.log(err?.response?.data?.error)
+    }finally {
+      setLoading(false) }
+  }
+
+  
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -21,7 +44,7 @@ export default function Signin() {
                 Create a free account
               </Link>
             </p>
-            <form action="#" method="POST" className="mt-8">
+            <form onSubmit={handleFormSubmit} method="POST" className="mt-8">
               <div className="space-y-5">
                 <div>
                   <label
@@ -36,6 +59,10 @@ export default function Signin() {
                       className="form_control flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
                       type="email"
                       placeholder="Email"
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm({...form, email: e.target.value })
+                      }
                     ></input>
                   </div>
                 </div>
@@ -62,16 +89,17 @@ export default function Signin() {
                       className="form_control flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400  disabled:cursor-not-allowed disabled:opacity-50"
                       type="password"
                       placeholder="Password"
-                    ></input>
+                      value={form.password}
+                      onChange={(e)=>
+                      setForm({...form, password: e.target.value })} ></input>
                   </div>
                 </div>
                 <div>
                   <button
-                    type="button"
+                    type="submit"
                     className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                   >
-                    Login <ArrowRight className="ml-2" size={16} />
-                  </button>
+                    {loading ? "Logging": "Login"} </button>
                 </div>
               </div>
             </form>
