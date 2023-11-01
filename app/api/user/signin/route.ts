@@ -9,17 +9,20 @@ export async function POST(request: NextRequest) {
     try {
         const reqBody = await request.json();
         const { email, password } = reqBody
-        console.log(reqBody);
+
         // check user exits
         const user = await User.findOne({ email })
         if (!user) {
             return NextResponse.json({ error: "User does not exist" }, { status: 400 })
         }
-        console.log('user exists', user)
         // check if password is correct
         const validPass = await bcryptjs.compare(password, user.password)
         if (!validPass) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
+        }
+        // check if user verified
+        if(!user.isVerified) {
+            return NextResponse.json({ error: "A verification link is sent to your email. Please verify your email" }, { status: 400 })
         }
         // create token data
         const tokenData = {

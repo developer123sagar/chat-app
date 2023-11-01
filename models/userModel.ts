@@ -35,12 +35,12 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["USER2", "ADMIN"],
+        enum: ["USER", "ADMIN"],
         default: "USER",
     },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
-    verifyToken: {type: String},
+    verifyToken: String,
     verifyTokenExpiry: Date,
 });
 

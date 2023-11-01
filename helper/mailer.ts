@@ -7,28 +7,29 @@ interface ISendMail {
     emailType: "USER_VERIFICATION_EMAIL" | "FORGOT_PASSWORD",
 }
 
+const email = process.env.EMAIL || ""
+const pass = process.env.EMAIL_PASS || "";
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: email,
+        pass
+    }
+});
+
 export const sendEmail = async ({ email, emailType }: ISendMail) => {
     try {
         // creating hashed token
-        const hashedToken = await bcryptjs.hash(email, 10); 
+        const hashedToken = await bcryptjs.hash(email, 10);
         const tokenExpiry = Date.now() + 300000;
 
         if (emailType === "USER_VERIFICATION_EMAIL") {
-            await User.findOneAndUpdate({ email }, { 
+            await User.findOneAndUpdate({ email }, {
                 verifyToken: hashedToken,
                 verifyTokenExpiry: tokenExpiry
             });
         }
-
-        const transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: process.env.MAILTRAP_USER,
-                pass: process.env.MAILTRAP_PASSWORD
-            }
-        });
-
         const mailOptions = {
             from: 'jiffychat@gmail.com',
             to: email,
@@ -38,7 +39,10 @@ export const sendEmail = async ({ email, emailType }: ISendMail) => {
             </p>`
         }
 
-        const mailResponse = await transport.sendMail(mailOptions);
+        const mailResponse = await transporter.sendMail({
+            ...mailOptions,
+            text: "JiffyChat"
+        });
         return mailResponse;
     } catch (err: any) {
         throw new Error(err.message);
