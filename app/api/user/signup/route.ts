@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs"
 import User from "@/models/userModel";
 import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
+import { sendEmail } from "@/helper/mailer";
 
 // connecting to mongo db
 connect()
@@ -28,6 +29,12 @@ export async function POST(request: NextRequest) {
             password: hashedPassword,
         })
         const savedUser = await newUser.save()
+
+        // send verificaton email
+
+        console.log(email)
+        const mailRes = await sendEmail({ email, emailType: "USER_VERIFICATION_EMAIL" })
+        console.log(mailRes)
 
         return NextResponse.json({
             message: "User is Created successfully",

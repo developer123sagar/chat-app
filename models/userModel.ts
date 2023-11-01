@@ -1,6 +1,18 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const userSchema = new mongoose.Schema({
+export interface IUser extends Document {
+    username: string;
+    email: string;
+    password: string;
+    isVerified: boolean;
+    role: "USER" | "ADMIN";
+    forgotPasswordToken?: string;
+    forgotPasswordTokenExpiry?: Date;
+    verifyToken?: string;
+    verifyTokenExpiry?: Date;
+}
+
+const userSchema: Schema<IUser> = new mongoose.Schema({
     username: {
         type: String,
         required: [true, "Username is required"],
@@ -23,14 +35,15 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'user',
+        enum: ["USER2", "ADMIN"],
+        default: "USER",
     },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
-    verifyToken: Boolean,
+    verifyToken: {type: String},
     verifyTokenExpiry: Date,
-})
+});
 
-const User = mongoose.models.users || mongoose.model("users", userSchema)
+const User = mongoose.models.users || mongoose.model<IUser>("users", userSchema);
 
 export default User;
