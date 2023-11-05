@@ -1,5 +1,5 @@
 import bcryptjs from "bcryptjs"
-import User from "@/models/userModel";
+import User from "@/model/userModel";
 import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/helper/mailer";
@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
     try {
         const reqBody = await request.json();
         const { username, email, password } = reqBody
-        console.log(reqBody)
 
         // check if user already exists
         const user = await User.findOne({ email })
@@ -27,11 +26,12 @@ export async function POST(request: NextRequest) {
             username,
             email,
             password: hashedPassword,
+            token: "",
         })
-        const savedUser = await newUser.save()
+        await newUser.save()
 
         // send verificaton link email to user
-        const mailRes = await sendEmail({ email, emailType: "USER_VERIFICATION_EMAIL" })
+        await sendEmail({ email, emailType: "USER_VERIFICATION_EMAIL" })
 
         return NextResponse.json({
             message: "User is Created successfully",

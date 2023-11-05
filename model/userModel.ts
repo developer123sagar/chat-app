@@ -1,18 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface IUser extends Document {
-    username: string;
-    email: string;
-    password: string;
-    isVerified: boolean;
-    role: "USER" | "ADMIN";
-    forgotPasswordToken?: string;
-    forgotPasswordTokenExpiry?: Date;
-    verifyToken?: string;
-    verifyTokenExpiry?: Date;
-}
-
-const userSchema: Schema<IUser> = new mongoose.Schema({
+const userSchema: Schema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, "Username is required"],
@@ -38,12 +26,16 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
         enum: ["USER", "ADMIN"],
         default: "USER",
     },
+    token: {
+        type: String,
+        default: "",
+    },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
 });
 
-const User = mongoose.models.users || mongoose.model<IUser>("users", userSchema);
+const User = mongoose.models.users || mongoose.model("users", userSchema);
 
 export default User;
