@@ -1,4 +1,4 @@
-import User from "@/models/userModel";
+import User from "@/model/userModel";
 import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
         }
         // check if user verified
-        if(!user.isVerified) {
+        if (!user.isVerified) {
             return NextResponse.json({ error: "A verification link is sent to your email. Please verify your email" }, { status: 400 })
         }
         // create token data
@@ -30,7 +30,9 @@ export async function POST(request: NextRequest) {
             username: user.username,
             email: user.email
         }
-        const token = await jwt.sign(tokenData, process.env.SECRET_TOKEN!, { expiresIn: '1d' })
+        const token = await jwt.sign(tokenData, process.env.SECRET_TOKEN!)
+        user.token = token
+        await user.save()
 
         const response = NextResponse.json({
             message: "Login successful",
