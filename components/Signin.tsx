@@ -22,6 +22,10 @@ const Signin = () => {
             </div>
           </div>
           <SocialButton icon={google} />
+          <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
+            <h2>New to Jiffychat ?</h2>
+            <div className="underline cursor-pointer">Create an account</div>
+          </div>
         </form>
       </div>
     </div>
