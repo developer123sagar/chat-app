@@ -1,16 +1,11 @@
-import Logo from "@/components/custom/Logo";
-import Signin from "@/components/Signin";
+import AuthoForm from "@/components/AuthForm";
 
 export default function HomePage() {
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center items-center py-10 sm:px-8 lg:px-10">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Logo />
-        <h2 className="mt-6 text-center text-3xl font-bold tracking-tighter">
-          Login to your account
-        </h2>
-      </div>
-      <Signin />
-    </section>
+    <AuthoForm
+      api="/api/user/signin"
+      variant="SIGNIN"
+      title=" Login to your account"
+    />
   );
 }

@@ -1,5 +1,5 @@
-import { connect } from "@/config/mongo.config";
 import User from "@/model/userModel";
+import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
 
 connect()

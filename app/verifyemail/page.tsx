@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function VerifyEmailPage() {
   const [token, setToken] = useState("");
+  const [error, setError] = useState("");
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
@@ -12,7 +13,7 @@ export default function VerifyEmailPage() {
         await axios.post("/api/user/verifyEmail", { token });
         setVerified(true);
       } catch (err: any) {
-        console.log(err.response.data);
+        setError(err.response.data.error);
       }
     };
     if (token?.length > 0) {
@@ -27,7 +28,9 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="w-full flex justify-center items-center">
-      {verified ? "Email is verified successfully" : ""}
+      {verified &&
+        "Your Email is verified successfully . Now you can close this page"}
+      {error && <p>{error}</p>}
     </div>
   );
 }
