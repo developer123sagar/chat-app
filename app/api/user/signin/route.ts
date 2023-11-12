@@ -29,15 +29,15 @@ export async function POST(request: NextRequest) {
             id: user._id,
             username: user.username,
             email: user.email,
+            role: user.role,
         }
-        const token = await jwt.sign(tokenData, process.env.SECRET_TOKEN!)
+        const token = jwt.sign(tokenData, process.env.SECRET_TOKEN!)
         user.token = token
         await user.save()
 
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
-            token: token,
         })
         response.cookies.set("token", token, { httpOnly: true })
         return response

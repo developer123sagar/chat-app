@@ -7,10 +7,15 @@ import Input from "@/components/custom/Input";
 import Spinner from "@/components/Spinner";
 import SocialButton from "@/components/custom/SocialButton";
 import Logo from "@/components/custom/Logo";
-import { AuthFormSubmit, removeAllData } from "@/redux/auth/AuthSlice";
+import {
+  AuthFormSubmit,
+  getUserInfo,
+  removeAllData,
+} from "@/redux/auth/AuthSlice";
 import { Button } from "@/components/ui/button";
 import { google } from "@/common/icons";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   variant: "SIGNIN" | "SIGNUP";
@@ -26,14 +31,25 @@ const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
   });
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const { error, loading, message } = useAppSelector(
     (state: RootState) => state.auth
   );
 
-  const handleFormSubmit = (e: FormEvent) => {
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(AuthFormSubmit({ apiRoute: api, form: form }));
+    await dispatch(AuthFormSubmit({ apiRoute: api, form: form })).then(
+      (res) => {
+        if (AuthFormSubmit.fulfilled.match(res)) {
+          if (variant === "SIGNIN") {
+            dispatch(getUserInfo());
+          } else {
+            router.push("/");
+          }
+        }
+      }
+    );
   };
 
   return (
