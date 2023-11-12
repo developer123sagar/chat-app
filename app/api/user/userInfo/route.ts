@@ -16,12 +16,13 @@ export async function GET(req: NextRequest) {
         if (!user) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
+
         return NextResponse.json({
             message: "User found",
             data: user
         })
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 400 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
 }

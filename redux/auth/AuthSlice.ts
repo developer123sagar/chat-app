@@ -1,10 +1,11 @@
 import axios from "axios";
+import toast from "react-hot-toast"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface IAuthState {
     loading: boolean;
-    error: string;
-    message: string;
+    loading2: boolean;
+    token: string;
     user: {
         _id: string;
         username: string;
@@ -15,11 +16,13 @@ interface IAuthState {
     } | null;
 }
 
+const storedToken = localStorage.getItem('token') || ""
+
 const initialState: IAuthState = {
-    message: "",
     loading: false,
-    error: "",
-    user: null
+    loading2: false,
+    user: null,
+    token: storedToken,
 }
 
 export const AuthFormSubmit = createAsyncThunk(
@@ -27,9 +30,11 @@ export const AuthFormSubmit = createAsyncThunk(
     async ({ form, apiRoute }: { form: any, apiRoute: string }) => {
         try {
             const res = await axios.post(`${apiRoute}`, form)
-            const { message } = res.data
-            return { message };
+            const { message, token } = res.data
+            toast.success(message)
+            return { message, token };
         } catch (err: any) {
+            toast.error(err.response.data.error)
             throw new Error(err.response.data.error);
         }
     }
@@ -50,10 +55,7 @@ const AuthSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        removeAllData(state) {
-            state.error = "";
-            state.message = "";
-        },
+
     },
     extraReducers: (builder) => {
         builder.addCase(AuthFormSubmit.pending, (state) => {
@@ -61,24 +63,25 @@ const AuthSlice = createSlice({
         })
         builder.addCase(AuthFormSubmit.fulfilled, (state, action) => {
             state.loading = false;
-            state.message = action.payload.message;
+            if (action.payload.token) {
+                state.token = action.payload.token;
+                localStorage.setItem("token", state.token);
+            }
         })
-        builder.addCase(AuthFormSubmit.rejected, (state, action) => {
+        builder.addCase(AuthFormSubmit.rejected, (state) => {
             state.loading = false;
-            state.error = action.error.message!;
         })
         builder.addCase(getUserInfo.pending, (state) => {
-            state.loading = true;
+            state.loading2 = true;
         })
         builder.addCase(getUserInfo.fulfilled, (state, action) => {
-            state.loading = false
-            state.user = action.payload.data
+            state.loading2 = false
+            state.user = action.payload.data;
         })
         builder.addCase(getUserInfo.rejected, (state) => {
-            state.loading = false;
+            state.loading2 = false;
         })
     }
 })
 
 export default AuthSlice.reducer;
-export const { removeAllData } = AuthSlice.actions

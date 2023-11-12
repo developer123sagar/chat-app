@@ -1,8 +1,9 @@
 import User from "@/model/userModel";
-import { connect } from "@/config/mongo.config";
-import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { connect } from "@/config/mongo.config";
+import { NextRequest, NextResponse } from "next/server";
+
 connect()
 
 export async function POST(request: NextRequest) {
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
             email: user.email,
             role: user.role,
         }
+
         const token = jwt.sign(tokenData, process.env.SECRET_TOKEN!)
         user.token = token
         await user.save()
@@ -38,8 +40,8 @@ export async function POST(request: NextRequest) {
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
+            token: token,
         })
-        response.cookies.set("token", token, { httpOnly: true })
         return response
     }
     catch (error: any) {

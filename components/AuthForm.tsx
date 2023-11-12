@@ -2,20 +2,16 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Input from "@/components/custom/Input";
 import Spinner from "@/components/Spinner";
 import SocialButton from "@/components/custom/SocialButton";
 import Logo from "@/components/custom/Logo";
-import {
-  AuthFormSubmit,
-  getUserInfo,
-  removeAllData,
-} from "@/redux/auth/AuthSlice";
+import { AuthFormSubmit, getUserInfo } from "@/redux/auth/AuthSlice";
 import { Button } from "@/components/ui/button";
 import { google } from "@/common/icons";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   variant: "SIGNIN" | "SIGNUP";
@@ -23,7 +19,7 @@ interface AuthFormProps {
   title: string;
 }
 
-const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
+const AuthForm = ({ variant, api, title }: AuthFormProps) => {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -33,12 +29,10 @@ const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { error, loading, message } = useAppSelector(
-    (state: RootState) => state.auth
-  );
+  const { loading } = useAppSelector((state: RootState) => state.auth);
 
-  const handleFormSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = async (e?: FormEvent) => {
+    e?.preventDefault();
     await dispatch(AuthFormSubmit({ apiRoute: api, form: form })).then(
       (res) => {
         if (AuthFormSubmit.fulfilled.match(res)) {
@@ -52,6 +46,7 @@ const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
     );
   };
 
+  
   return (
     <section className="w-full min-h-screen flex flex-col justify-center px-5 py-10 sm:items-center sm:px-8 lg:px-10">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -89,9 +84,6 @@ const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
-            {error && !message && (
-              <span className="text-sm text-rose-600">{error}</span>
-            )}
             <Button className="h-[2.7rem]" fullWidth>
               {loading ? (
                 <Spinner btn />
@@ -123,7 +115,6 @@ const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
                   : "Already have an account"}
               </h2>
               <Link
-                onClick={() => dispatch(removeAllData())}
                 href={variant === "SIGNIN" ? "/signup" : "/"}
                 className="underline cursor-pointer"
               >
@@ -137,4 +128,4 @@ const AuthoForm = ({ variant, api, title }: AuthFormProps) => {
   );
 };
 
-export default AuthoForm;
+export default AuthForm;

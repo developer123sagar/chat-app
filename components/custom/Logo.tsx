@@ -8,6 +8,7 @@ const Logo = () => {
         alt="logo"
         height={50}
         width={50}
+        priority
         className="mx-auto w-auto"
       />
     </>
