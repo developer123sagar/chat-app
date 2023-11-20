@@ -1,3 +1,5 @@
+"use client"
+
 import useConversation from "@/hooks/useConversation";
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
