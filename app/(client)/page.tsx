@@ -2,6 +2,7 @@
 
 import AuthoForm from "@/components/AuthForm";
 import MainPage from "@/components/MainPage";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import { RootState, useAppSelector } from "@/redux/store";
 
 export default function HomePage() {
@@ -16,7 +17,9 @@ export default function HomePage() {
           title=" Login to your account"
         />
       ) : (
-        <MainPage />
+        <Sidebar>
+          <MainPage />
+        </Sidebar>
       )}
     </>
   );
