@@ -20,6 +20,7 @@ const DesktopSidebar = () => {
               label={item.label}
               icon={item.icon}
               active={item.active}
+              onClick={item.onClick}
             />
           ))}
         </ul>

@@ -55,7 +55,10 @@ const AuthSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-
+        logOut(state) {
+            state.token = "",
+                localStorage.removeItem("token");
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(AuthFormSubmit.pending, (state) => {
@@ -85,3 +88,4 @@ const AuthSlice = createSlice({
 })
 
 export default AuthSlice.reducer;
+export const { logOut } = AuthSlice.actions;
