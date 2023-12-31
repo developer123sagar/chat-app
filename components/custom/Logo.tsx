@@ -1,17 +1,9 @@
-import Image from "next/image";
-
 const Logo = () => {
   return (
-    <>
-      <Image
-        src="/images/logo.png"
-        alt="logo"
-        height={50}
-        width={50}
-        priority
-        className="mx-auto w-auto"
-      />
-    </>
+    <h1 className="text-center font-semibold text-3xl">
+      <span className="text-blue-600/80">Jiffy</span>
+      <span className="text-gray-600/80">Chat</span>
+    </h1>
   );
 };
 

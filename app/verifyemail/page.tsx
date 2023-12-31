@@ -16,14 +16,17 @@ export default function VerifyEmailPage() {
         setError(err.response.data.error);
       }
     };
-    if (token?.length > 0) {
+    if (typeof window !== "undefined" && token?.length > 0) {
       verifyUserEmail();
     }
   }, [token]);
 
   useEffect(() => {
-    const urlToken = window.location.search.split("=")[1];
-    setToken(urlToken);
+    if (typeof window !== "undefined") {
+      const urlToken = new URLSearchParams(window.location.search).get("token");
+      console.log(urlToken)
+      setToken(urlToken || "");
+    }
   }, []);
 
   return (
