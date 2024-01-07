@@ -1,12 +1,15 @@
-import DesktopSidebar from "./DesktopSidebar";
+import SearchBar from "./SearchBar";
+import UserList from "./UserList";
+import SidebarHeader from "./SidebarHeader";
 
-function Sidebar({ children }: { children: React.ReactNode }) {
+const Sidebar = () => {
   return (
-    <main className="h-full">
-      <DesktopSidebar />
-      <aside className="lg:pl-20 h-full">{children}</aside>
-    </main>
+    <aside className="flex flex-col max-h-screen z-30 w-[30rem] bg-gray-800">
+      <SidebarHeader />
+      <SearchBar />
+      <UserList />
+    </aside>
   );
-}
+};
 
 export default Sidebar;

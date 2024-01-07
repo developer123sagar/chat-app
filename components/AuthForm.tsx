@@ -12,6 +12,7 @@ import { AuthFormSubmit, getUserInfo } from "@/redux/auth/AuthSlice";
 import { Button } from "@/components/ui/button";
 import { google } from "@/common/icons";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import { signIn } from "next-auth/react";
 
 interface AuthFormProps {
   variant: "SIGNIN" | "SIGNUP";
@@ -46,7 +47,15 @@ const AuthForm = ({ variant, api, title }: AuthFormProps) => {
     );
   };
 
-  
+  const googleSignIn = async () => {
+    await signIn("google", {
+      callbackUrl: "/",
+      redirect: true,
+    }).then(() => {
+      localStorage.setItem("token", "google");
+    });
+  };
+
   return (
     <section className="w-full min-h-screen flex flex-col justify-center px-5 py-10 sm:items-center sm:px-8 lg:px-10">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -105,7 +114,7 @@ const AuthForm = ({ variant, api, title }: AuthFormProps) => {
                     </span>
                   </div>
                 </div>
-                <SocialButton icon={google} />
+                <SocialButton icon={google} onClick={googleSignIn} />
               </>
             )}
             <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
