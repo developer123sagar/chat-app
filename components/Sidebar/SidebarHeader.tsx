@@ -1,5 +1,4 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdOutlineChat } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 

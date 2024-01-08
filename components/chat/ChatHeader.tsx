@@ -6,7 +6,7 @@ import { MdCall } from "react-icons/md";
 
 const ChatHeader = () => {
   return (
-    <header className="h-16 px-4 py-3 flex-between border-l border-gray-600 bg-gray-800 text-white">
+    <header className="h-16 px-4 py-3 flex-between bg-gray-800 text-white">
       <li className="flex-center gap-6">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />

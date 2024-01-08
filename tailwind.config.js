@@ -70,6 +70,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        "chat-bg": "url('/imgs/bg-chat2.jpeg')",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
