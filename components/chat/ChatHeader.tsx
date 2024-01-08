@@ -1,4 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Tooltip from "@/components/custom/Tooltip";
+
 import { BiSearchAlt2 } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoVideocam } from "react-icons/io5";
@@ -18,9 +20,15 @@ const ChatHeader = () => {
         </div>
       </li>
       <li className="flex gap-4">
-        <MdCall size={20} className="cursor-pointer" />
-        <IoVideocam size={20} className="cursor-pointer" />
+        <Tooltip text="Voice call">
+          <MdCall size={20} className="cursor-pointer" />
+        </Tooltip>
+        <Tooltip text="Video call">
+          <IoVideocam size={20} className="cursor-pointer" />
+        </Tooltip>
+
         <BiSearchAlt2 size={20} className="cursor-pointer" />
+
         <BsThreeDotsVertical size={20} className="cursor-pointer" />
       </li>
     </header>

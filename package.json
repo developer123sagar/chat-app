@@ -23,6 +23,7 @@
     "clsx": "^2.0.0",
     "eslint": "8.49.0",
     "eslint-config-next": "^14.0.3",
+    "framer-motion": "^10.17.9",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.279.0",
     "mongoose": "^7.5.2",
