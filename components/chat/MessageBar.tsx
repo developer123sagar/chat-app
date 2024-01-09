@@ -14,14 +14,6 @@ const MessageBar = () => {
   const [message, setMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleFocus = () => {
-    setIsTyping(true);
-  };
-
-  const handleBlur = () => {
-    setIsTyping(false);
-  };
-
   return (
     <>
       {currentChatUser && (
@@ -43,8 +35,8 @@ const MessageBar = () => {
               className="bg-gray-600 text-sm focus:outline-none text-white placeholder:text-white h-10 rounded px-5 py-4 w-full"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => setIsTyping(false)}
             />
           </li>
           <li className="flex-center w-10">
