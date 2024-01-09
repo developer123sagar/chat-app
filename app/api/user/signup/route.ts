@@ -7,7 +7,7 @@ import { sendEmail } from "@/helper/mailer";
 // connecting to mongo db
 connect()
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
     try {
         const reqBody = await request.json();
         const { username, email, password } = reqBody
@@ -50,3 +50,4 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }
+

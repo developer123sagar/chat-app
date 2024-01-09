@@ -1,10 +1,26 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import { changeCurrentUser } from "@/redux/users/ContactListSlice";
 import { ChatListItemProps } from "@/types";
 
-const ContactListItem = ({ data, isContactPage = false }: ChatListItemProps) => {
+const ContactListItem = ({
+  data,
+  isContactPage = false,
+}: ChatListItemProps) => {
+  const dispatch = useAppDispatch();
+  const { currentChatUser } = useAppSelector(
+    (state: RootState) => state.contactList
+  );
+  console.log(isContactPage);
+
   return (
-    <div className={`flex cursor-pointer hover:bg-gray-900 border-gray-900 border-y`}>
+    <div
+      className={`flex cursor-pointer hover:bg-gray-900 border-gray-900 border-y ${
+        currentChatUser?._id === data._id ? "bg-gray-900" : null
+      }`}
+      onClick={() => dispatch(changeCurrentUser(data))}
+    >
       <div className="min-w-fit px-5 pt-3 pb-1">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />

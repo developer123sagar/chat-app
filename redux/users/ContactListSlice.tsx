@@ -9,13 +9,13 @@ const initialState: ContactListStateProps = {
   userInfo: null,
   isNewUser: false,
   isContactsPage: false,
+  currentChatUser: null,
 };
 
 export const getUserContactList = createAsyncThunk("contactlist", async () => {
   try {
     const res = await axios.get("/api/user/all");
     const { data } = res.data;
-    console.log(data)
     return data;
   } catch (err: any) {
     toast.error(err.response.data.message);
@@ -29,6 +29,10 @@ const ContactListSlice = createSlice({
   reducers: {
     setContactPage: (state) => {
       state.isContactsPage = !state.isContactsPage;
+    },
+    changeCurrentUser: (state, action) => {
+      state.currentChatUser = action.payload;
+      state.isContactsPage = false;
     },
   },
   extraReducers: (builder) => {
@@ -46,4 +50,4 @@ const ContactListSlice = createSlice({
 });
 
 export default ContactListSlice.reducer;
-export const { setContactPage } = ContactListSlice.actions;
+export const { setContactPage, changeCurrentUser } = ContactListSlice.actions;

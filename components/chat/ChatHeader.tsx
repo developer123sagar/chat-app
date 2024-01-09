@@ -5,33 +5,45 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoVideocam } from "react-icons/io5";
 import { MdCall } from "react-icons/md";
+import { RootState, useAppSelector } from "@/redux/store";
+import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
 
 const ChatHeader = () => {
+  const { currentChatUser } = useAppSelector(
+    (state: RootState) => state.contactList
+  );
+
   return (
-    <header className="h-16 px-4 py-3 flex-between bg-gray-800 text-white">
-      <li className="flex-center gap-6">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>Avatar</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col">
-          <span className="text-gray-200 text-sm">Demo</span>
-          <span className="text-gray-200 text-sm">Online</span>
-        </div>
-      </li>
-      <li className="flex gap-4">
-        <Tooltip text="Voice call">
-          <MdCall size={20} className="cursor-pointer" />
-        </Tooltip>
-        <Tooltip text="Video call">
-          <IoVideocam size={20} className="cursor-pointer" />
-        </Tooltip>
+    <>
+      {currentChatUser && (
+        <header className="h-16 px-4 py-3 flex-between bg-gray-800 text-white">
+          <li className="flex-center gap-6">
+            <Avatar>
+              <AvatarImage src={currentChatUser?.avatar} />
+              <AvatarFallback>Avatar</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="text-gray-200 text-sm">
+                {capitalizeFirstLetter(currentChatUser?.username as string)}
+              </span>
+              <span className="text-gray-200 text-sm">Online</span>
+            </div>
+          </li>
+          <li className="flex gap-4">
+            <Tooltip text="Voice call">
+              <MdCall size={20} className="cursor-pointer" />
+            </Tooltip>
+            <Tooltip text="Video call">
+              <IoVideocam size={20} className="cursor-pointer" />
+            </Tooltip>
 
-        <BiSearchAlt2 size={20} className="cursor-pointer" />
+            <BiSearchAlt2 size={20} className="cursor-pointer" />
 
-        <BsThreeDotsVertical size={20} className="cursor-pointer" />
-      </li>
-    </header>
+            <BsThreeDotsVertical size={20} className="cursor-pointer" />
+          </li>
+        </header>
+      )}
+    </>
   );
 };
 

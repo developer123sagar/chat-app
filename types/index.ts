@@ -4,6 +4,8 @@ export type ContactListUser = {
     _id: string;
     email: string;
     username: string;
+    avatar: string;
+    about: string;
 }
 
 export type ContactList = {
@@ -16,6 +18,7 @@ export type ContactListStateProps = {
     userInfo: any | null;
     isNewUser: boolean;
     isContactsPage: boolean;
+    currentChatUser: ContactListUser | null;
 };
 
 export type ChatListItemProps = {
