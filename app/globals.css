@@ -106,7 +106,8 @@ body::-webkit-scrollbar {
 
 .custom-scrollbar::-webkit-scrollbar {
   height: 8px !important;
-  width: 8px;
+  width: 2px;
+  border-radius: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {

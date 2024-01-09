@@ -9,19 +9,22 @@ connect();
 export async function GET(req: NextRequest) {
     try {
         const userId = await getTokenData(req);
-        
+
         if (!userId) {
             return NextResponse.json({ message: "Unauthorized access" }, { status: 401 });
         }
 
-        const users = await User.find({}, '_id email username').sort({ username: 1 });
+        const users = await User.find({}, {}).sort({ username: 1 });
 
         if (!users || users.length === 0) {
             return NextResponse.json({ message: "No users found" }, { status: 404 });
         }
 
+        // filtering verified users only
+        const verifiedUsers = users.filter(user => user.isVerified === true);
+
         // Group users by initial letters
-        const groupedUsers = groupUsersByInitialLetters(users);
+        const groupedUsers = groupUsersByInitialLetters(verifiedUsers);
 
         return NextResponse.json({
             message: "Users found",

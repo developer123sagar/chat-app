@@ -15,6 +15,7 @@ export const getUserContactList = createAsyncThunk("contactlist", async () => {
   try {
     const res = await axios.get("/api/user/all");
     const { data } = res.data;
+    console.log(data)
     return data;
   } catch (err: any) {
     toast.error(err.response.data.message);

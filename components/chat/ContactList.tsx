@@ -1,10 +1,12 @@
+import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
+import { useEffect } from "react";
+
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import {
   getUserContactList,
   setContactPage,
 } from "@/redux/users/ContactListSlice";
-import { useEffect } from "react";
-import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
+import ContactListItem from "./ChatListItem";
 
 const ContactList = () => {
   const dispatch = useAppDispatch();
@@ -40,11 +42,21 @@ const ContactList = () => {
             </li>
           </div>
         </div>
+        <h2 className="text-teal-500 text-xl font-bold pl-10 py-4 border-b border-gray-600">
+          Contacts On Jiffychat
+        </h2>
         <div className="h-full w-full overflow-y-scroll custom-scrollbar">
           {contactList &&
             Object.entries(contactList).map(([initialLetter, contact]) => (
               <ul key={Date.now().toString() + initialLetter}>
                 <li className="text-teal-400 pl-10 py-6">{initialLetter}</li>
+                {contact.map((user) => (
+                  <ContactListItem
+                    data={user}
+                    isContactPage={true}
+                    key={user._id}
+                  />
+                ))}
               </ul>
             ))}
         </div>

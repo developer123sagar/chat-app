@@ -17,6 +17,15 @@ const userSchema: Schema = new mongoose.Schema({
         required: [true, "Password is required"],
         trim: true,
     },
+    about: {
+        type: String,
+        trim: true,
+        default: "Hey there! I am using Jiffychat."
+    },
+    avatar: {
+        type: String,
+        default: "https://github.com/shadcn.png"
+    },
     isVerified: {
         type: Boolean,
         default: false,
