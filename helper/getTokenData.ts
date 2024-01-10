@@ -6,6 +6,7 @@ export const getTokenData = async (req?: NextRequest) => {
     if (req)
         try {
             const token = req.cookies.get("token")?.value || '';
+            console.log(token)
 
             const isTokenValid = await User.findOne({ token: token })
 
