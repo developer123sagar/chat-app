@@ -12,6 +12,11 @@ export async function GET(req: NextRequest) {
     try {
         const userId = await getTokenData(req);
 
+        if (!userId) {
+            return NextResponse.json({ message: "Unauthorized access" }, { status: 401 });
+        }
+        console.log(userId)
+
         const user = await User.findOne({ _id: userId }).select("-password -token -role");
 
         if (!user) {

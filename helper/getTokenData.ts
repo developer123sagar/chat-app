@@ -9,8 +9,10 @@ export const getTokenData = async (req?: NextRequest) => {
             console.log(token)
 
             const isTokenValid = await User.findOne({ token: token })
+            console.log(isTokenValid)
 
             const decodedToken: any = jwt.verify(token, process.env.SECRET_TOKEN!);
+            console.log(decodedToken)
             if (isTokenValid === null) {
                 return null
             }
