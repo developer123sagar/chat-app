@@ -7,10 +7,11 @@ import {
   setContactPage,
 } from "@/redux/users/ContactListSlice";
 import ContactListItem from "./ChatListItem";
+import Spinner from "@/components/Spinner";
 
 const ContactList = () => {
   const dispatch = useAppDispatch();
-  const { contactList } = useAppSelector(
+  const { contactList, loading } = useAppSelector(
     (state: RootState) => state.contactList
   );
 
@@ -30,7 +31,7 @@ const ContactList = () => {
             <span>New Chat</span>
           </div>
         </div>
-        <div className="h-16">
+        <div className="h-16 px-1">
           <div className="flex items-center gap-3">
             <li className="bg-gray-900 flex items-center gap-5 px-3 py-1 rounded flex-grow">
               <BiSearchAlt2 className="text-gray-200 cursor-pointer text-lg" />
@@ -42,24 +43,30 @@ const ContactList = () => {
             </li>
           </div>
         </div>
-        <h2 className="text-teal-500 text-xl font-bold pl-10 py-4 border-b border-gray-600">
-          Contacts On Jiffychat
+        <h2 className="text-teal-500 text-lg font-bold pl-10 py-4 border-b border-gray-600">
+          Friends On Jiffychat
         </h2>
-        <div className="h-full w-full overflow-y-scroll custom-scrollbar">
-          {contactList &&
-            Object.entries(contactList).map(([initialLetter, contact]) => (
-              <ul key={Date.now().toString() + initialLetter}>
-                <li className="text-teal-400 pl-10 py-6">{initialLetter}</li>
-                {contact.map((user) => (
-                  <ContactListItem
-                    data={user}
-                    isContactPage={true}
-                    key={user._id}
-                  />
-                ))}
-              </ul>
-            ))}
-        </div>
+        {loading ? (
+          <div className="h-full flex-center">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="h-full w-full overflow-y-scroll custom-scrollbar">
+            {contactList &&
+              Object.entries(contactList).map(([initialLetter, contact]) => (
+                <ul key={Date.now().toString() + initialLetter}>
+                  <li className="text-teal-400 pl-10 py-6">{initialLetter}</li>
+                  {contact.map((user) => (
+                    <ContactListItem
+                      data={user}
+                      isContactPage={true}
+                      key={user._id}
+                    />
+                  ))}
+                </ul>
+              ))}
+          </div>
+        )}
       </div>
     </>
   );

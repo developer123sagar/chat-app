@@ -30,6 +30,8 @@ const userSchema: Schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    sentMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
+    receivedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
     role: {
         type: String,
         enum: ["USER", "ADMIN"],
@@ -43,7 +45,10 @@ const userSchema: Schema = new mongoose.Schema({
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
-});
+}, {
+    timestamps: true,
+}
+);
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);
 

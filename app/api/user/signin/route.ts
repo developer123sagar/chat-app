@@ -6,6 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 connect()
 
+const expiresIn = 30 * 24 * 60 * 60;
+
 export async function POST(request: NextRequest) {
     try {
         const reqBody = await request.json();
@@ -25,6 +27,7 @@ export async function POST(request: NextRequest) {
         if (!user.isVerified) {
             return NextResponse.json({ error: "A verification link is sent to your email. Please verify your email" }, { status: 400 })
         }
+        
         // create token data
         const tokenData = {
             id: user._id,
@@ -33,7 +36,7 @@ export async function POST(request: NextRequest) {
             role: user.role,
         }
 
-        const token = jwt.sign(tokenData, process.env.SECRET_TOKEN!)
+        const token = jwt.sign(tokenData, process.env.SECRET_TOKEN!, { expiresIn })
         user.token = token
         await user.save()
 
@@ -42,7 +45,10 @@ export async function POST(request: NextRequest) {
             success: true,
             token: token,
         })
-        response.cookies.set("token", token, { httpOnly: true })
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            expires: new Date(Date.now() + expiresIn * 1000)
+        })
         return response
     }
     catch (error: any) {

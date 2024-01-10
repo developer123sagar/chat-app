@@ -26,7 +26,7 @@ const ChatHeader = () => {
               <span className="text-gray-200 text-sm">
                 {capitalizeFirstLetter(currentChatUser?.username as string)}
               </span>
-              <span className="text-gray-200 text-sm">Online</span>
+              <span className="text-gray-200 text-sm">Offline</span>
             </div>
           </li>
           <li className="flex gap-4">

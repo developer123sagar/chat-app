@@ -51,8 +51,6 @@ const AuthForm = ({ variant, api, title }: AuthFormProps) => {
     await signIn("google", {
       callbackUrl: "/",
       redirect: true,
-    }).then(() => {
-      localStorage.setItem("token", "google");
     });
   };
 

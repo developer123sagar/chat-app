@@ -13,7 +13,7 @@ export default function SidebarHeader() {
     <ul className="h-16 px-4 py-3 flex justify-between items-center">
       <li className="cursor-pointer">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src="/imgs/me.jpg" />
           <AvatarFallback>Avatar</AvatarFallback>
         </Avatar>
       </li>

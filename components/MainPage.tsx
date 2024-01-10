@@ -10,7 +10,6 @@ export default function MainPage() {
   return (
     <div className="hidden lg:flex h-screen w-screen">
       <Sidebar />
-
       {currentChatUser ? <Chat /> : <EmptyState />}
     </div>
   );

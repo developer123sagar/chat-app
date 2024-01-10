@@ -2,10 +2,10 @@ import axios from "axios";
 import toast from "react-hot-toast"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+
 interface IAuthState {
     loading: boolean;
     loading2: boolean;
-    token: string;
     user: {
         _id: string;
         username: string;
@@ -16,13 +16,10 @@ interface IAuthState {
     } | null;
 }
 
-const storedToken = localStorage.getItem('token') || ""
-
 const initialState: IAuthState = {
     loading: false,
     loading2: false,
     user: null,
-    token: storedToken,
 }
 
 export const AuthFormSubmit = createAsyncThunk(
@@ -55,21 +52,13 @@ const AuthSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logOut(state) {
-            state.token = "",
-                localStorage.removeItem("token");
-        },
     },
     extraReducers: (builder) => {
         builder.addCase(AuthFormSubmit.pending, (state) => {
             state.loading = true;
         })
-        builder.addCase(AuthFormSubmit.fulfilled, (state, action) => {
+        builder.addCase(AuthFormSubmit.fulfilled, (state) => {
             state.loading = false;
-            if (action.payload.token) {
-                state.token = action.payload.token;
-                localStorage.setItem("token", state.token);
-            }
         })
         builder.addCase(AuthFormSubmit.rejected, (state) => {
             state.loading = false;
@@ -88,4 +77,3 @@ const AuthSlice = createSlice({
 })
 
 export default AuthSlice.reducer;
-export const { logOut } = AuthSlice.actions;
