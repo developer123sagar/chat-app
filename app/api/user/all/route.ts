@@ -18,12 +18,14 @@ export async function GET(req: NextRequest) {
 
         const users = await User.find({}, {}).sort({ username: 1 });
 
+        console.log(userId)
+
         if (!users || users.length === 0) {
             return NextResponse.json({ message: "No users found" }, { status: 404 });
         }
 
         // filtering verified users only
-        const verifiedUsers = users.filter(user => user.isVerified === true);
+        const verifiedUsers = users.filter(user => user.isVerified === true && user._id != userId);
 
         // Group users by initial letters
         const groupedUsers = groupUsersByInitialLetters(verifiedUsers);
