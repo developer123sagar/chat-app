@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
         if (!user.isVerified) {
             return NextResponse.json({ error: "A verification link is sent to your email. Please verify your email" }, { status: 400 })
         }
-        
+
         // create token data
         const tokenData = {
             id: user._id,
@@ -43,8 +43,8 @@ export async function POST(request: NextRequest) {
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
-            token: token,
-        })
+        }, { status: 200 })
+        
         response.cookies.set("token", token, {
             httpOnly: true,
             expires: new Date(Date.now() + expiresIn * 1000)

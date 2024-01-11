@@ -1,23 +1,20 @@
 import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
-import { useEffect } from "react";
 
-import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import {
-  getUserContactList,
-  setContactPage,
-} from "@/redux/users/ContactListSlice";
+import { useAppDispatch } from "@/redux/store";
 import ContactListItem from "./ChatListItem";
 import Spinner from "@/components/Spinner";
+import { useGetContactListQuery } from "@/redux/api/ContactListApi";
+import { setContactPage } from "@/redux/reducer/ContactListReducer";
+import toast from "react-hot-toast";
 
 const ContactList = () => {
   const dispatch = useAppDispatch();
-  const { contactList, loading } = useAppSelector(
-    (state: RootState) => state.contactList
-  );
 
-  useEffect(() => {
-    dispatch(getUserContactList());
-  }, [dispatch]);
+  const { data, isLoading, isSuccess, isError } = useGetContactListQuery();
+
+  if (isError) {
+    return toast.error("Something went wrong");
+  }
 
   return (
     <>
@@ -46,14 +43,15 @@ const ContactList = () => {
         <h2 className="text-teal-500 text-lg font-bold pl-10 py-4 border-b border-gray-600">
           Friends On Jiffychat
         </h2>
-        {loading ? (
+        {isLoading ? (
           <div className="h-full flex-center">
             <Spinner />
           </div>
         ) : (
           <div className="h-full w-full overflow-y-scroll custom-scrollbar">
-            {contactList &&
-              Object.entries(contactList).map(([initialLetter, contact]) => (
+            {isSuccess &&
+              data &&
+              Object.entries(data).map(([initialLetter, contact]) => (
                 <ul key={Date.now().toString() + initialLetter}>
                   <li className="text-teal-400 pl-10 py-6">{initialLetter}</li>
                   {contact.map((user) => (

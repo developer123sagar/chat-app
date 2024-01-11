@@ -2,7 +2,8 @@ import User from "@/model/userModel";
 import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
 import { groupUsersByInitialLetters } from "@/helper/backend/groupUserByInitialLetters";
-import { getTokenData } from "@/helper/getTokenData";
+import { getTokenData } from "@/helper/backend/getTokenData";
+import { cookies } from "next/headers";
 
 connect();
 
@@ -11,6 +12,7 @@ export async function GET(req: NextRequest) {
         const userId = await getTokenData(req);
 
         if (!userId) {
+            cookies().set('token', '', { maxAge: 0 })
             return NextResponse.json({ message: "Unauthorized access" }, { status: 401 });
         }
 

@@ -1,5 +1,5 @@
 import { connect } from "@/config/mongo.config";
-import { getTokenData } from "@/helper/getTokenData";
+import { getTokenData } from "@/helper/backend/getTokenData";
 import Message from "@/model/messageModel";
 import User from "@/model/userModel";
 import { NextRequest, NextResponse } from "next/server";

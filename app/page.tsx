@@ -3,27 +3,37 @@
 import AuthoForm from "@/components/AuthForm";
 import MainPage from "@/components/MainPage";
 import Spinner from "@/components/Spinner";
-import { getUserInfo } from "@/redux/auth/AuthSlice";
-import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { useEffect } from "react";
+import { POST_SIGNIN } from "@/constants/APIRoute";
+import { useGetUserInfoQuery } from "@/redux/api/AuthApi";
+import { RootState, useAppSelector } from "@/redux/store";
 
 export default function HomePage() {
-  const { user, loading2 } = useAppSelector((state: RootState) => state.auth);
+  const { skipUserInfo } = useAppSelector(
+    (state: RootState) => state.contactList
+  );
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getUserInfo());
-  }, [dispatch]);
+  const {
+    isLoading,
+    data: user,
+    isError,
+  } = useGetUserInfoQuery(null, { skip: skipUserInfo });
 
-  if (loading2) {
-    return <Spinner />;
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <>
-      {(!user?.isVerified && loading2) || user === null ? (
+      {(!user?.isVerified && isLoading) ||
+      user === null ||
+      isError ||
+      skipUserInfo ? (
         <AuthoForm
-          api="/api/user/signin"
+          api={POST_SIGNIN}
           variant="SIGNIN"
           title=" Login to your account"
         />

@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs"
 import User from "@/model/userModel";
 import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
-import { sendEmail } from "@/helper/mailer";
+import { sendEmail } from "@/helper/backend/mailer";
 
 // connecting to mongo db
 connect()

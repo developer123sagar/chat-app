@@ -1,8 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
+import { changeCurrentUser } from "@/redux/reducer/ContactListReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { changeCurrentUser } from "@/redux/users/ContactListSlice";
 import { ChatListItemProps } from "@/types";
+import Avatar from "../custom/Avatar";
 
 const ContactListItem = ({
   data,
@@ -22,10 +22,11 @@ const ContactListItem = ({
       onClick={() => dispatch(changeCurrentUser(data))}
     >
       <div className="min-w-fit px-5 pt-3 pb-1">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
+        {/* <Avatar>
+          <AvatarImage src="" />
           <AvatarFallback>Avatar</AvatarFallback>
-        </Avatar>
+        </Avatar> */}
+        <Avatar src="https://github.com/shadcn.png" />
       </div>
       <div className="flex flex-col justify-center mt-3 pr-2 w-full min-h-full">
         <div className="flex justify-between">
