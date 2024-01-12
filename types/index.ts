@@ -20,17 +20,33 @@ export type ContactList = {
     [key: string]: ContactListUser[]
 };
 
-export type ContactListStateProps = {
+export type ContactListState = {
     loading: boolean;
     contactList: ContactList | null;
     userInfo: any | null;
     isNewUser: boolean;
     isContactsPage: boolean;
     currentChatUser: ContactListUser | null;
-    skipUserInfo:boolean;
+    skipUserInfo: boolean;
+    MainPageSkipMsg: boolean;
 };
 
 export type ChatListItemProps = {
     data: ContactListUser;
-    isContactPage: boolean;
 };
+type MessageStatus = "SENT" | "DELIVERED" | "SEEN"
+
+export type MessageType = {
+    _id: string;
+    receiverId: string;
+    senderId: string;
+    messageStatus: MessageStatus;
+    message: string;
+    messageType: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export type MessageState = {
+    messages: MessageType[]
+}

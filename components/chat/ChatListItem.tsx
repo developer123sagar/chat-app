@@ -6,14 +6,12 @@ import Avatar from "../custom/Avatar";
 
 const ContactListItem = ({
   data,
-  isContactPage = false,
 }: ChatListItemProps) => {
   const dispatch = useAppDispatch();
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
-  console.log(isContactPage);
-
+  
   return (
     <div
       className={`flex cursor-pointer hover:bg-gray-900 border-gray-900 border-y ${
@@ -22,10 +20,6 @@ const ContactListItem = ({
       onClick={() => dispatch(changeCurrentUser(data))}
     >
       <div className="min-w-fit px-5 pt-3 pb-1">
-        {/* <Avatar>
-          <AvatarImage src="" />
-          <AvatarFallback>Avatar</AvatarFallback>
-        </Avatar> */}
         <Avatar src="https://github.com/shadcn.png" />
       </div>
       <div className="flex flex-col justify-center mt-3 pr-2 w-full min-h-full">

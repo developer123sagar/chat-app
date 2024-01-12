@@ -57,7 +57,6 @@ const ContactList = () => {
                   {contact.map((user) => (
                     <ContactListItem
                       data={user}
-                      isContactPage={true}
                       key={user._id}
                     />
                   ))}

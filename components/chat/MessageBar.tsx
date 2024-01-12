@@ -5,14 +5,37 @@ import { FaMicrophone } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
 import { RootState, useAppSelector } from "@/redux/store";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { useSendMessageMutation } from "@/redux/api/MessageApi";
+import toast from "react-hot-toast";
 
 const MessageBar = () => {
+  const [form, seetForm] = useState({
+    message: "",
+    to: "",
+  });
+  const [isTyping, setIsTyping] = useState(false);
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
-  const [message, setMessage] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+
+  const [sendMsg, { isSuccess }] = useSendMessageMutation();
+
+  const handleMessageSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (currentChatUser) {
+      const updatedForm = { ...form };
+      updatedForm.to = currentChatUser?._id;
+      try {
+        const res: any = await sendMsg(updatedForm).unwrap();
+        if (isSuccess || res.data) {
+          seetForm({ ...form, message: "" });
+        }
+      } catch (err: any) {
+        toast.error(err.error || "Something went wrong");
+      }
+    }
+  };
 
   return (
     <>
@@ -28,35 +51,42 @@ const MessageBar = () => {
               title="Attach File"
             />
           </li>
-          <li className="w-full rounded-lg h-10 flex items-center">
+          <form
+            onSubmit={handleMessageSubmit}
+            className="w-full rounded-lg h-10 flex gap-10 items-center"
+          >
             <input
               type="text"
               placeholder="Type a message"
               className="bg-gray-600 text-sm focus:outline-none text-white placeholder:text-white h-10 rounded px-5 py-4 w-full"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={form.message}
+              onChange={(e) => seetForm({ ...form, message: e.target.value })}
               onFocus={() => setIsTyping(true)}
               onBlur={() => setIsTyping(false)}
             />
-          </li>
-          <li className="flex-center w-10">
-            {isTyping ? (
-              <Button className="px-5 flex-center">
-                <MdSend
-                  className="text-gray-200 cursor-pointer text-xl"
-                  title="send message"
-                />
-              </Button>
-            ) : (
-              <div className="px-5">
-                <FaMicrophone
-                  className="text-gray-200 cursor-pointer text-xl"
-                  title="record"
-                  size={25}
-                />
-              </div>
-            )}
-          </li>
+            <li className="flex-center w-10">
+              {isTyping ? (
+                <Button
+                  onClick={handleMessageSubmit}
+                  type="submit"
+                  className="px-5 flex-center"
+                >
+                  <MdSend
+                    className="text-gray-200 cursor-pointer text-xl"
+                    title="send message"
+                  />
+                </Button>
+              ) : (
+                <div className="px-5">
+                  <FaMicrophone
+                    className="text-gray-200 cursor-pointer text-xl"
+                    title="record"
+                    size={25}
+                  />
+                </div>
+              )}
+            </li>
+          </form>
         </ul>
       )}
     </>

@@ -7,6 +7,7 @@ export default function MainPage() {
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
+
   return (
     <div className="hidden lg:flex h-screen w-screen">
       <Sidebar />

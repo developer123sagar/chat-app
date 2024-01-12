@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
             message: "Login successful",
             success: true,
         }, { status: 200 })
-        
+
         response.cookies.set("token", token, {
             httpOnly: true,
             expires: new Date(Date.now() + expiresIn * 1000)
