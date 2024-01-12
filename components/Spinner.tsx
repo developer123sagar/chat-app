@@ -18,8 +18,8 @@ const Spinner = ({ btn }: { btn?: boolean }) => {
           <Image
             src={"/imgs/loader.svg"}
             alt="spinner"
-            width={50}
-            height={30}
+            width={200}
+            height={100}
             priority
           />
         </div>

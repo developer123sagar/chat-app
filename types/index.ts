@@ -2,8 +2,18 @@ export type PageType = "DEFAULT" | "ALL_CONTACTS"
 
 export type ContactListUser = {
     _id: string;
-    email: string;
     username: string;
+    email: string;
+    isVerified: boolean;
+    role: "USER" | "ADMIN";
+    token: string;
+    avatar: string;
+    about: string;
+}
+
+export interface IAuthState {
+    loading: boolean;
+    user: ContactListUser | null;
 }
 
 export type ContactList = {
@@ -16,6 +26,8 @@ export type ContactListStateProps = {
     userInfo: any | null;
     isNewUser: boolean;
     isContactsPage: boolean;
+    currentChatUser: ContactListUser | null;
+    skipUserInfo:boolean;
 };
 
 export type ChatListItemProps = {

@@ -34,7 +34,7 @@ export const sendEmail = async ({ email, emailType }: ISendMail) => {
             from: 'jiffychat@gmail.com',
             to: email,
             subject: emailType === "USER_VERIFICATION_EMAIL" ? "Verify your account" : "Reset your password",
-            html: `<p>Click <a href="${process.env.DOMAIN_URL}/verifyemail?token=${randomString}">here</a> to ${emailType === "USER_VERIFICATION_EMAIL" ? "verify your email" : "reset your password"}
+            html: `<p>Click <a href="https://jiffychat.vercel.app/verifyemail?token=${randomString}">here</a> to ${emailType === "USER_VERIFICATION_EMAIL" ? "verify your email" : "reset your password"}
             or copy and paste the link below in your browser. <br> ${process.env.DOMAIN_URL}/verifyemail?token=${randomString}
             </p>`
         }

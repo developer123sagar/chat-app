@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { ReduxProvider } from "@/provider/ReduxProvider";
-import { NextAuthProvider } from "@/provider/NextAuthProvider";
 
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 export const metadata: Metadata = {
@@ -20,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-100 text-gray-950 relative`}>
-        <NextAuthProvider>
-          <ReduxProvider>{children}</ReduxProvider>
-          <Toaster position="top-right" />
-        </NextAuthProvider>
+        <ReduxProvider>{children}</ReduxProvider>
+        <Toaster position="top-right" />
       </body>
     </html>
   );

@@ -1,10 +1,10 @@
 import AuthoForm from "@/components/AuthForm";
-
+import { POST_SIGNUP } from "@/constants/APIRoute";
 
 export default function SignUp() {
   return (
     <AuthoForm
-      api="/api/user/signup"
+      api={POST_SIGNUP}
       variant="SIGNUP"
       title="Register Your Account"
     />

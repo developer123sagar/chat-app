@@ -5,55 +5,54 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Input from "@/components/custom/Input";
-import Spinner from "@/components/Spinner";
 import SocialButton from "@/components/custom/SocialButton";
 import Logo from "@/components/custom/Logo";
-import { AuthFormSubmit, getUserInfo } from "@/redux/auth/AuthSlice";
 import { Button } from "@/components/ui/button";
 import { google } from "@/common/icons";
-import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { signIn } from "next-auth/react";
+import {
+  useAuthFormSubmitMutation,
+  useGetUserInfoQuery,
+} from "@/redux/api/AuthApi";
+import toast from "react-hot-toast";
+import Spinner from "./Spinner";
+import { useAppDispatch } from "@/redux/store";
+import { changeSkipUserInfo } from "@/redux/reducer/ContactListReducer";
 
 interface AuthFormProps {
   variant: "SIGNIN" | "SIGNUP";
-  api: string;
   title: string;
+  api: string;
 }
 
-const AuthForm = ({ variant, api, title }: AuthFormProps) => {
+const AuthForm = ({ variant, title, api }: AuthFormProps) => {
   const [form, setForm] = useState({
     email: "",
     password: "",
     ...(variant === "SIGNUP" && { username: "" }),
   });
+  const [changeSkip, setChangeSkip] = useState(true);
 
-  const dispatch = useAppDispatch();
+  const [postAuthForm, { isLoading }] = useAuthFormSubmitMutation();
+  useGetUserInfoQuery(null, { skip: changeSkip });
+
   const router = useRouter();
-
-  const { loading } = useAppSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
 
   const handleFormSubmit = async (e?: FormEvent) => {
     e?.preventDefault();
-    await dispatch(AuthFormSubmit({ apiRoute: api, form: form })).then(
-      (res) => {
-        if (AuthFormSubmit.fulfilled.match(res)) {
-          if (variant === "SIGNIN") {
-            dispatch(getUserInfo());
-          } else {
-            router.push("/");
-          }
-        }
+    try {
+      const res: any = await postAuthForm({ form, api }).unwrap();
+      toast.success(res.message);
+      if (res.success && variant === "SIGNIN") {
+        setChangeSkip(false);
       }
-    );
-  };
-
-  const googleSignIn = async () => {
-    await signIn("google", {
-      callbackUrl: "/",
-      redirect: true,
-    }).then(() => {
-      localStorage.setItem("token", "google");
-    });
+      if (variant === "SIGNUP") {
+        dispatch(changeSkipUserInfo(true));
+        router.push("/");
+      }
+    } catch (err: any) {
+      toast.error(err.error || "Something went wrong");
+    }
   };
 
   return (
@@ -94,12 +93,16 @@ const AuthForm = ({ variant, api, title }: AuthFormProps) => {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
             <Button className="h-[2.7rem]" fullWidth>
-              {loading ? (
+              {variant === "SIGNIN" ? (
+                isLoading ? (
+                  <Spinner btn />
+                ) : (
+                  "Login"
+                )
+              ) : isLoading ? (
                 <Spinner btn />
-              ) : variant === "SIGNIN" ? (
-                "Login"
               ) : (
-                "Sign up"
+                "Signup"
               )}
             </Button>
             {variant === "SIGNIN" && (
@@ -114,7 +117,7 @@ const AuthForm = ({ variant, api, title }: AuthFormProps) => {
                     </span>
                   </div>
                 </div>
-                <SocialButton icon={google} onClick={googleSignIn} />
+                <SocialButton icon={google} />
               </>
             )}
             <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
@@ -124,6 +127,11 @@ const AuthForm = ({ variant, api, title }: AuthFormProps) => {
                   : "Already have an account"}
               </h2>
               <Link
+                onClick={
+                  variant === "SIGNUP"
+                    ? () => dispatch(changeSkipUserInfo(true))
+                    : undefined
+                }
                 href={variant === "SIGNIN" ? "/signup" : "/"}
                 className="underline cursor-pointer"
               >

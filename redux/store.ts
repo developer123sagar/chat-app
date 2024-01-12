@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-
-import AuthReducer from '@/redux/auth/AuthSlice';
-import ContactListReducer from "@/redux/users/ContactListSlice"
+import { contactListAPI } from './api/ContactListApi';
+import { authAPI } from './api/AuthApi';
+import { contactListReducer } from './reducer/ContactListReducer';
 
 const store = configureStore({
     reducer: {
-        auth: AuthReducer,
-        contactList: ContactListReducer,
+        [contactListAPI.reducerPath]: contactListAPI.reducer,
+        [authAPI.reducerPath]: authAPI.reducer,
+        [contactListReducer.name]: contactListReducer.reducer
     },
+    middleware: (mid) => [...mid(), contactListAPI.middleware, authAPI.middleware]
 });
 
 export default store;
