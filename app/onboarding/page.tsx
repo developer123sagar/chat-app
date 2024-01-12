@@ -22,7 +22,7 @@ const Onboarding = () => {
           <span className="text-gray-600/80">Chat</span>
         </span>
       </div>
-      <h2 className="text-xl mt-1">Create your profile</h2>
+      <h2 className="text-xl font-bold mt-1">Create your profile</h2>
       <div className="flex gap-10 mt-6">
         <div className="flex flex-col items-center justify-center mt-5 space-y-6">
           <Input name="Display Name" state={name} setState={setName} label={true}/>
