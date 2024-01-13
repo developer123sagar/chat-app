@@ -34,7 +34,7 @@ export type ContactListState = {
 export type ChatListItemProps = {
     data: ContactListUser;
 };
-type MessageStatus = "SENT" | "DELIVERED" | "SEEN"
+export type MessageStatus = "SENT" | "DELIVERED" | "SEEN"
 
 export type MessageType = {
     _id: string;

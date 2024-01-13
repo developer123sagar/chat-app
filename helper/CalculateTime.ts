@@ -1,4 +1,4 @@
-export const calculateTime = (date: Date): string => {
+export const calculateTime = (date: Date, showAMPM: boolean): string => {
     const inputDate = new Date(date);
     // getting current date
     const currentDate = new Date();
@@ -10,6 +10,7 @@ export const calculateTime = (date: Date): string => {
         month: "2-digit",
         year: "numeric",
     };
+    const ampmtime = inputDate.toLocaleTimeString("en-US", timeFormat);
 
     // check if it's today, tomorrow, or more than one day ago
     if (
@@ -18,7 +19,6 @@ export const calculateTime = (date: Date): string => {
         inputDate.getUTCFullYear() === currentDate.getFullYear()
     ) {
         // if today then convert to AM/PM format
-        const ampmtime = inputDate.toLocaleTimeString("en-US", timeFormat);
         return ampmtime;
     } else if (
         // if yesterday then show Yesterday
@@ -26,8 +26,9 @@ export const calculateTime = (date: Date): string => {
         inputDate.getUTCMonth() === currentDate.getUTCMonth() &&
         inputDate.getFullYear() === currentDate.getUTCFullYear()
     ) {
-        return "Yesterday";
+        return showAMPM ? ampmtime : "yesterday";
     } else if (
+        // if less than a week
         Math.floor((currentDate.getTime() - inputDate.getTime()) / (1000 * 60 * 60 * 24)) > 1 &&
         Math.floor((currentDate.getTime() - inputDate.getTime()) / (1000 * 60 * 60 * 24)) <= 7
     ) {
@@ -47,7 +48,6 @@ export const calculateTime = (date: Date): string => {
             "Saturday",
         ];
         const targetDay = daysOfWeek[targetDate.getDay()];
-
         return targetDay;
     } else {
         // more than 7 days ago: show date in DD/MM/YYYY format

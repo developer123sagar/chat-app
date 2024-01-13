@@ -3,6 +3,7 @@ import { useGetMessagesQuery } from "@/redux/api/MessageApi";
 import Spinner from "../Spinner";
 import Image from "next/image";
 import { calculateTime } from "@/helper/CalculateTime";
+import MessageStatusComp from "./MessageStatusComp";
 
 const ChatContainer = () => {
   const { currentChatUser, MainPageSkipMsg } = useAppSelector(
@@ -18,7 +19,7 @@ const ChatContainer = () => {
   });
 
   return (
-    <div className="h-[80vh] z-50 py-1 px-1 w-full relative flex-grow overflow-auto custom-scrollbar">
+    <div className="h-[80vh] z-50 py-3 px-4 w-full relative flex-grow overflow-auto custom-scrollbar">
       <Image
         src={"/imgs/chatBg.jpeg"}
         alt="jiffychat"
@@ -41,26 +42,27 @@ const ChatContainer = () => {
                 } `}
               >
                 {msg.messageType === "text" && (
-                  <h1
-                    className={`px-2 text py-2.5 text-sm flex gap-2 items-end max-w-[55%] rounded-lg ${
+                  <div
+                    className={`px-3 text py-2.5 text-sm flex gap-2 items-end max-w-[55%] rounded-full ${
                       msg.senderId === currentChatUser?._id
-                        ? "bg-gray-950"
-                        : "bg-[#0695FF]"
+                        ? "bg-[#78a45e]"
+                        : "bg-[#4890d8]"
                     }`}
                   >
                     <p className="text-white break-all">{msg.message}</p>
-                    <div className="flex gap-1 items-end">
+                    <div className="flex gap-1 items-end ">
                       <span
-                        className={`text-xs ${
-                          msg.senderId === currentChatUser?._id
-                            ? "text-gray-500"
-                            : "text-slate-300"
-                        } text-sm pt-1 min-w-fit`}
+                        className={`text-[11px] text-gray-300 pt-1 min-w-fit`}
                       >
-                        {calculateTime(msg.createdAt)}
+                        {calculateTime(msg.createdAt,true)}
+                      </span>
+                      <span>
+                        {msg.receiverId === currentChatUser?._id && (
+                          <MessageStatusComp msgStatus={msg.messageStatus} />
+                        )}
                       </span>
                     </div>
-                  </h1>
+                  </div>
                 )}
               </li>
             ))}
