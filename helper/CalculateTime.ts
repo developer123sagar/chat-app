@@ -1,4 +1,4 @@
-export const calculateTime = (date: Date, showAMPM: boolean): string => {
+export const calculateTime = (date: Date, showAMPM?: boolean): string => {
     const inputDate = new Date(date);
     // getting current date
     const currentDate = new Date();

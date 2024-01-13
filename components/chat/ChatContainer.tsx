@@ -54,7 +54,7 @@ const ChatContainer = () => {
                       <span
                         className={`text-[11px] text-gray-300 pt-1 min-w-fit`}
                       >
-                        {calculateTime(msg.createdAt,true)}
+                        {calculateTime(msg.createdAt)}
                       </span>
                       <span>
                         {msg.receiverId === currentChatUser?._id && (
