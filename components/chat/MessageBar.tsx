@@ -57,7 +57,7 @@ const MessageBar = () => {
               value={form.message}
               onChange={(e) => seetForm({ ...form, message: e.target.value })}
             />
-            <li className="flex-center">
+            <div className="flex-center">
               <Button
                 onClick={handleMessageSubmit}
                 className="px-5 flex-center"
@@ -74,7 +74,7 @@ const MessageBar = () => {
                   size={25}
                 />
               </div>
-            </li>
+            </div>
           </li>
         </ul>
       )}

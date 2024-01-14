@@ -3,21 +3,23 @@ import { changeCurrentUser } from "@/redux/reducer/ContactListReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { ChatListItemProps } from "@/types";
 import Avatar from "../custom/Avatar";
+import { changeGettingMsg } from "@/redux/reducer/MessageReducer";
 
-const ContactListItem = ({
-  data,
-}: ChatListItemProps) => {
+const ContactListItem = ({ data }: ChatListItemProps) => {
   const dispatch = useAppDispatch();
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
-  
+
   return (
     <div
       className={`flex cursor-pointer hover:bg-gray-900 border-gray-900 border-y ${
         currentChatUser?._id === data._id ? "bg-gray-900" : null
       }`}
-      onClick={() => dispatch(changeCurrentUser(data))}
+      onClick={() => {
+        dispatch(changeCurrentUser(data));
+        dispatch(changeGettingMsg(true));
+      }}
     >
       <div className="min-w-fit px-5 pt-3 pb-1">
         <Avatar src="https://github.com/shadcn.png" />

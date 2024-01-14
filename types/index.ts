@@ -1,3 +1,7 @@
+import { Server as NetServer, Socket } from "net";
+import { NextApiResponse } from "next";
+import { Server as SocketIOServer } from "socket.io";
+
 export type PageType = "DEFAULT" | "ALL_CONTACTS"
 
 export type ContactListUser = {
@@ -28,7 +32,6 @@ export type ContactListState = {
     isContactsPage: boolean;
     currentChatUser: ContactListUser | null;
     skipUserInfo: boolean;
-    MainPageSkipMsg: boolean;
 };
 
 export type ChatListItemProps = {
@@ -48,5 +51,20 @@ export type MessageType = {
 }
 
 export type MessageState = {
-    messages: MessageType[]
+    messages: MessageType[],
+    isGettingMsg: boolean,
 }
+
+export type NextApiResponseServerIo = NextApiResponse & {
+    socket: Socket & {
+        server: NetServer & {
+            io: SocketIOServer;
+        };
+    };
+};
+
+
+export type SocketContextType = {
+    socket: any | null;
+    isConnected: boolean;
+  };

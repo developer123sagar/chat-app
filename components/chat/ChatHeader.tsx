@@ -7,6 +7,7 @@ import { MdCall } from "react-icons/md";
 import { RootState, useAppSelector } from "@/redux/store";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
 import Avatar from "../custom/Avatar";
+import { SocketIndicator } from "@/components/custom/Socket-indicator";
 
 const ChatHeader = () => {
   const { currentChatUser } = useAppSelector(
@@ -23,7 +24,9 @@ const ChatHeader = () => {
               <span className="text-gray-200 text-sm">
                 {capitalizeFirstLetter(currentChatUser?.username as string)}
               </span>
-              <span className="text-gray-200 text-sm">Offline</span>
+              <span className="">
+                <SocketIndicator />
+              </span>
             </div>
           </li>
           <li className="flex gap-4">
@@ -33,9 +36,7 @@ const ChatHeader = () => {
             <Tooltip text="Video call">
               <IoVideocam size={20} className="cursor-pointer" />
             </Tooltip>
-
             <BiSearchAlt2 size={20} className="cursor-pointer" />
-
             <BsThreeDotsVertical size={20} className="cursor-pointer" />
           </li>
         </header>

@@ -1,11 +1,14 @@
 "use client";
 
-import AuthoForm from "@/components/AuthForm";
-import MainPage from "@/components/MainPage";
-import Spinner from "@/components/Spinner";
+import dynamic from "next/dynamic";
+
 import { POST_SIGNIN } from "@/constants/APIRoute";
 import { useGetUserInfoQuery } from "@/redux/api/AuthApi";
 import { RootState, useAppSelector } from "@/redux/store";
+
+const MainPage = dynamic(() => import("@/components/MainPage"));
+const AuthForm = dynamic(() => import("@/components/AuthForm"));
+const Spinner = dynamic(() => import("@/components/Spinner"));
 
 export default function HomePage() {
   const { skipUserInfo } = useAppSelector(
@@ -32,7 +35,7 @@ export default function HomePage() {
       user === null ||
       isError ||
       skipUserInfo ? (
-        <AuthoForm
+        <AuthForm
           api={POST_SIGNIN}
           variant="SIGNIN"
           title=" Login to your account"

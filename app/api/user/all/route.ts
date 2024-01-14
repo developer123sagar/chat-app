@@ -18,8 +18,6 @@ export async function GET(req: NextRequest) {
 
         const users = await User.find({}, {}).sort({ username: 1 });
 
-        console.log(userId)
-
         if (!users || users.length === 0) {
             return NextResponse.json({ message: "No users found" }, { status: 404 });
         }

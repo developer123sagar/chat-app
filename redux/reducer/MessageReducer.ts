@@ -2,7 +2,9 @@ import { MessageState } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: MessageState = {
-    messages: []
+    messages: [],
+    isGettingMsg: true,
+
 }
 
 export const MessageReducer = createSlice({
@@ -11,8 +13,11 @@ export const MessageReducer = createSlice({
     reducers: {
         setMessage: (state, action) => {
             state.messages = action.payload
+        },
+        changeGettingMsg: (state, action) => {
+            state.isGettingMsg = action.payload;
         }
     }
 })
 
-export const { setMessage } = MessageReducer.actions
+export const { setMessage, changeGettingMsg } = MessageReducer.actions

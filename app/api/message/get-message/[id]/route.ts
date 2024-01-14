@@ -26,10 +26,6 @@ export async function GET(req: NextRequest) {
                 ],
             }).sort({ _id: 1 });
 
-            
-            console.log("Messages:", messages);
-        
-
             const unreadMessages: string[] = [];
             messages.forEach((msg, id) => {
                 if (msg.messageStatus !== "SEEN" && msg.senderId == to) {
@@ -43,7 +39,6 @@ export async function GET(req: NextRequest) {
                 { _id: { $in: unreadMessages } },
                 { $set: { messageStatus: "SEEN" } }
             );
-            console.log(messages.length)
 
             return NextResponse.json({
                 message: "Messages retrieved successfully",

@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
                 receiverId: to,
                 message: message,
             });
-            console.log(newMessage)
 
             // Save the message to the database
             await newMessage.save();
@@ -48,7 +47,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: "Incomplete data" }, { status: 400 });
 
     } catch (error: any) {
-        console.log(error)
         return NextResponse.json({ error: error.message }, { status: 400 })
 
     }

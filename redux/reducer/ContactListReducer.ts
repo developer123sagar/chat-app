@@ -9,7 +9,6 @@ const initialState: ContactListState = {
     isContactsPage: false,
     currentChatUser: null,
     skipUserInfo: false,
-    MainPageSkipMsg: true,
 };
 
 
@@ -23,11 +22,9 @@ export const contactListReducer = createSlice({
         changeCurrentUser: (state, action) => {
             state.currentChatUser = action.payload;
             state.isContactsPage = false;
-            state.MainPageSkipMsg = false;
         },
         changeSkipUserInfo: (state, action) => {
             state.skipUserInfo = action.payload
-            console.log(action.payload)
         }
     },
 });

@@ -55,10 +55,7 @@ const ContactList = () => {
                 <ul key={Date.now().toString() + initialLetter}>
                   <li className="text-teal-400 pl-10 py-6">{initialLetter}</li>
                   {contact.map((user) => (
-                    <ContactListItem
-                      data={user}
-                      key={user._id}
-                    />
+                    <ContactListItem data={user} key={user._id} />
                   ))}
                 </ul>
               ))}
