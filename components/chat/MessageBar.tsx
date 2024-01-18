@@ -8,15 +8,17 @@ import { RootState, useAppSelector } from "@/redux/store";
 import { FormEvent, useState } from "react";
 import { useSendMessageMutation } from "@/redux/api/MessageApi";
 import toast from "react-hot-toast";
+import { useSocket } from "@/provider/SocketProvider";
 
 const MessageBar = () => {
   const [form, seetForm] = useState({
     message: "",
     to: "",
   });
-  const { currentChatUser } = useAppSelector(
+  const { currentChatUser, loginUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
+  const { socket } = useSocket();
 
   const [sendMsg] = useSendMessageMutation();
 
@@ -29,6 +31,11 @@ const MessageBar = () => {
       updatedForm.to = currentChatUser?._id;
       try {
         await sendMsg(updatedForm).unwrap();
+        socket.emit("send-msg", {
+          to: currentChatUser._id,
+          from: loginUser?._id,
+          message: form.message,
+        });
       } catch (err: any) {
         toast.error(err.error || "Something went wrong");
       }

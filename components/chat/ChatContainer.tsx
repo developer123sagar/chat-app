@@ -1,35 +1,40 @@
-import { RootState, useAppSelector } from "@/redux/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useGetMessagesQuery } from "@/redux/api/MessageApi";
 import Spinner from "../Spinner";
 import { calculateTime } from "@/helper/CalculateTime";
 import MessageStatusComp from "./MessageStatusComp";
+import { useEffect } from "react";
+import { setMessage } from "@/redux/reducer/MessageReducer";
 
 const ChatContainer = () => {
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
+  const { messages } = useAppSelector((state: RootState) => state.messages);
+  console.log(messages);
 
   const {
-    data: messages,
+    data: msg,
     isLoading,
     isSuccess,
   } = useGetMessagesQuery(currentChatUser?._id);
 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentChatUser) {
+      dispatch(setMessage(msg));
+    }
+  }, [currentChatUser, dispatch, msg]);
+
   return (
     <div className="h-[80vh] z-50 py-3 px-4 w-full relative flex-grow overflow-auto custom-scrollbar">
-      {/* <Image
-        src={"/imgs/chatBg.jpeg"}
-        alt="jiffychat"
-        width={1000}
-        height={100}
-        priority
-        className="w-full h-full z-0 object-cover opacity-5 absolute top-0 left-0"
-      /> */}
       <div className="flex w-full">
         <ul className="flex flex-col justify-end w-full gap-1 overflow-auto">
           {isLoading && <Spinner btn />}
           {isSuccess &&
-            messages.map((msg) => (
+            messages &&
+            messages?.map((msg) => (
               <li
                 key={msg._id}
                 className={`flex ${

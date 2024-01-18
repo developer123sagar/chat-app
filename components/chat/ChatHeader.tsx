@@ -7,7 +7,6 @@ import { MdCall } from "react-icons/md";
 import { RootState, useAppSelector } from "@/redux/store";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
 import Avatar from "../custom/Avatar";
-import { SocketIndicator } from "@/components/custom/Socket-indicator";
 
 const ChatHeader = () => {
   const { currentChatUser } = useAppSelector(
@@ -23,9 +22,6 @@ const ChatHeader = () => {
             <div className="flex flex-col">
               <span className="text-gray-200 text-sm">
                 {capitalizeFirstLetter(currentChatUser?.username as string)}
-              </span>
-              <span className="">
-                <SocketIndicator />
               </span>
             </div>
           </li>

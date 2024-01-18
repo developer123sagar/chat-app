@@ -32,6 +32,7 @@ export type ContactListState = {
     isContactsPage: boolean;
     currentChatUser: ContactListUser | null;
     skipUserInfo: boolean;
+    loginUser: ContactListUser | null;
 };
 
 export type ChatListItemProps = {
@@ -40,7 +41,7 @@ export type ChatListItemProps = {
 export type MessageStatus = "SENT" | "DELIVERED" | "SEEN"
 
 export type MessageType = {
-    _id: string;
+    _id?: string;
     receiverId: string;
     senderId: string;
     messageStatus: MessageStatus;
@@ -63,8 +64,12 @@ export type NextApiResponseServerIo = NextApiResponse & {
     };
 };
 
-
 export type SocketContextType = {
     socket: any | null;
     isConnected: boolean;
-  };
+};
+
+export type OnlineUsers = {
+    userId: string;
+    socketId: string;
+}

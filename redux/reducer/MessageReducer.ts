@@ -16,8 +16,12 @@ export const MessageReducer = createSlice({
         },
         changeGettingMsg: (state, action) => {
             state.isGettingMsg = action.payload;
+        },
+        addMessage: (state, action) => {
+            console.log(action.payload)
+            state.messages = [...state.messages, action.payload]
         }
     }
 })
 
-export const { setMessage, changeGettingMsg } = MessageReducer.actions
+export const { setMessage, changeGettingMsg, addMessage } = MessageReducer.actions

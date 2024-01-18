@@ -9,6 +9,7 @@ const initialState: ContactListState = {
     isContactsPage: false,
     currentChatUser: null,
     skipUserInfo: false,
+    loginUser: null,
 };
 
 
@@ -25,9 +26,12 @@ export const contactListReducer = createSlice({
         },
         changeSkipUserInfo: (state, action) => {
             state.skipUserInfo = action.payload
+        },
+        setUser: (state, action) => {
+            state.loginUser = action.payload
         }
     },
 });
 
 
-export const { setContactPage, changeCurrentUser, changeSkipUserInfo } = contactListReducer.actions;
+export const { setContactPage, changeCurrentUser, changeSkipUserInfo, setUser } = contactListReducer.actions;
