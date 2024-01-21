@@ -1,17 +1,21 @@
+import { useEffect } from "react";
+
+import Spinner from "@/components/Spinner";
+import MessageStatusComp from "@/components/chat/MessageStatusComp";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useGetMessagesQuery } from "@/redux/api/MessageApi";
-import Spinner from "../Spinner";
 import { calculateTime } from "@/helper/CalculateTime";
-import MessageStatusComp from "./MessageStatusComp";
-import { useEffect } from "react";
 import { setMessage } from "@/redux/reducer/MessageReducer";
+import { useSocket } from "@/provider/SocketProvider";
+import { SOCKET_GET_MESSAGE } from "@/constants";
+import { MessageType } from "@/types";
 
 const ChatContainer = () => {
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
   const { messages } = useAppSelector((state: RootState) => state.messages);
-  console.log(messages);
+  const { socket } = useSocket();
 
   const {
     data: msg,
@@ -20,6 +24,12 @@ const ChatContainer = () => {
   } = useGetMessagesQuery(currentChatUser?._id);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    socket.on(SOCKET_GET_MESSAGE, (data: MessageType) => {
+      console.log(data, "socket get msg");
+    });
+  }, [socket, dispatch]);
 
   useEffect(() => {
     if (currentChatUser) {
@@ -34,9 +44,9 @@ const ChatContainer = () => {
           {isLoading && <Spinner btn />}
           {isSuccess &&
             messages &&
-            messages?.map((msg) => (
+            messages?.map((msg, id) => (
               <li
-                key={msg._id}
+                key={msg._id || id}
                 className={`flex ${
                   msg.senderId === currentChatUser?._id
                     ? "justify-start"

@@ -1,5 +1,5 @@
-import { MessageStatus } from "@/types";
 import { IoCheckmark, IoCheckmarkDone } from "react-icons/io5";
+import { MessageStatus } from "@/types";
 
 const MessageStatusComp = ({ msgStatus }: { msgStatus: MessageStatus }) => {
   return (

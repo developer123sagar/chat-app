@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { BsEmojiSmile } from "react-icons/bs";
 import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
@@ -7,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { RootState, useAppSelector } from "@/redux/store";
 import { FormEvent, useState } from "react";
 import { useSendMessageMutation } from "@/redux/api/MessageApi";
-import toast from "react-hot-toast";
 import { useSocket } from "@/provider/SocketProvider";
+import { SOCKET_SEND_MESSAGE } from "@/constants";
 
 const MessageBar = () => {
   const [form, seetForm] = useState({
@@ -19,12 +20,18 @@ const MessageBar = () => {
     (state: RootState) => state.contactList
   );
   const { socket } = useSocket();
-
   const [sendMsg] = useSendMessageMutation();
 
   const handleMessageSubmit = async (e: FormEvent) => {
     e.preventDefault();
     seetForm({ ...form, message: "" });
+
+    socket.emit(SOCKET_SEND_MESSAGE, {
+      senderId: loginUser?._id,
+      receiverId: currentChatUser?._id,
+      message: form.message,
+      messageType: "text",
+    });
 
     if (currentChatUser) {
       const updatedForm = { ...form };

@@ -1,12 +1,11 @@
 import Tooltip from "@/components/custom/Tooltip";
-
+import Avatar from "@/components/custom/Avatar";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoVideocam } from "react-icons/io5";
 import { MdCall } from "react-icons/md";
 import { RootState, useAppSelector } from "@/redux/store";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
-import Avatar from "../custom/Avatar";
 
 const ChatHeader = () => {
   const { currentChatUser } = useAppSelector(

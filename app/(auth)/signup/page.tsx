@@ -1,5 +1,5 @@
 import AuthoForm from "@/components/AuthForm";
-import { POST_SIGNUP } from "@/constants/APIRoute";
+import { POST_SIGNUP } from "@/constants";
 
 export default function SignUp() {
   return (

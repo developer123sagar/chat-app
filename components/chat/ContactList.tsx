@@ -1,11 +1,10 @@
-import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
-
-import { useAppDispatch } from "@/redux/store";
-import ContactListItem from "./ChatListItem";
+import ContactListItem from "@/components/chat/ContactListItem";
 import Spinner from "@/components/Spinner";
+import toast from "react-hot-toast";
+import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
+import { useAppDispatch } from "@/redux/store";
 import { useGetContactListQuery } from "@/redux/api/ContactListApi";
 import { setContactPage } from "@/redux/reducer/ContactListReducer";
-import toast from "react-hot-toast";
 
 const ContactList = () => {
   const dispatch = useAppDispatch();

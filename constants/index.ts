@@ -1,8 +1,8 @@
-
 // socket part
 export const SOCKET_ADD_USER = "add-user"
 export const SOCKET_GET_USER = "get-users"
 export const SOCKET_SEND_MESSAGE = "send-message"
+export const SOCKET_GET_MESSAGE = "get-message"
 
 // api routes
 const AUTH_ROUTE = "api/user";

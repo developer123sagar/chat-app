@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { GET_CONTACT_LIST } from "@/constants/APIRoute";
+import { GET_CONTACT_LIST } from "@/constants";
 import { ContactList } from "@/types";
 
 

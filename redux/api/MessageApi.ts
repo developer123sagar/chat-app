@@ -1,4 +1,4 @@
-import { GET_MESSAGE, SEND_MESSAGE } from "@/constants/APIRoute";
+import { GET_MESSAGE, SEND_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 

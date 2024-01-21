@@ -3,11 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 
-import {
-  POST_SIGNIN,
-  SOCKET_ADD_USER,
-  SOCKET_GET_USER,
-} from "@/constants/APIRoute";
+import { POST_SIGNIN, SOCKET_ADD_USER, SOCKET_GET_USER } from "@/constants";
 import { useGetUserInfoQuery } from "@/redux/api/AuthApi";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { setUser } from "@/redux/reducer/ContactListReducer";

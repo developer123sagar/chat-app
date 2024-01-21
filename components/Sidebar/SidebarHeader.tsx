@@ -1,10 +1,10 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdOutlineChat } from "react-icons/md";
 
-import { useAppDispatch } from "@/redux/store";
+import Avatar from "@/components/custom/Avatar";
 import Tooltip from "@/components/custom/Tooltip";
+import { useAppDispatch } from "@/redux/store";
 import { setContactPage } from "@/redux/reducer/ContactListReducer";
-import Avatar from "../custom/Avatar";
 
 export default function SidebarHeader() {
   const dispatch = useAppDispatch();

@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Spinner from "@/components/Spinner";
+import toast from "react-hot-toast";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -13,8 +15,6 @@ import {
   useAuthFormSubmitMutation,
   useGetUserInfoQuery,
 } from "@/redux/api/AuthApi";
-import toast from "react-hot-toast";
-import Spinner from "./Spinner";
 import { useAppDispatch } from "@/redux/store";
 import { changeSkipUserInfo } from "@/redux/reducer/ContactListReducer";
 

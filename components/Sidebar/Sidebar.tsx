@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import ContactList from "../chat/ContactList";
-import SearchBar from "./SearchBar";
-import UserList from "./UserList";
-import SidebarHeader from "./SidebarHeader";
+import ContactList from "@/components/chat/ContactList";
+import SearchBar from "@/components/Sidebar/SearchBar";
+import UserList from "@/components/Sidebar/UserList";
+import SidebarHeader from "@/components/Sidebar/SidebarHeader";
 import { RootState, useAppSelector } from "@/redux/store";
 import { PageType } from "@/types";
 

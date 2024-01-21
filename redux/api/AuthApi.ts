@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GET_USER_INFO } from "@/constants/APIRoute";
+import { GET_USER_INFO } from "@/constants";
 import { ContactListUser } from "@/types";
 
 export const authAPI = createApi({

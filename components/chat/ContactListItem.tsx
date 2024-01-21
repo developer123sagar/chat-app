@@ -1,8 +1,8 @@
+import Avatar from "@/components/custom/Avatar";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
 import { changeCurrentUser } from "@/redux/reducer/ContactListReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { ChatListItemProps } from "@/types";
-import Avatar from "../custom/Avatar";
 import { changeGettingMsg } from "@/redux/reducer/MessageReducer";
 
 const ContactListItem = ({ data }: ChatListItemProps) => {

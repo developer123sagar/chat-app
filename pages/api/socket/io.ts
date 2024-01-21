@@ -3,7 +3,7 @@ import { NextApiRequest } from "next";
 import { Server as ServerIO } from "socket.io";
 
 import { NextApiResponseServerIo, OnlineUsers } from "@/types";
-import { SOCKET_ADD_USER, SOCKET_GET_USER } from "@/constants/APIRoute";
+import { SOCKET_ADD_USER, SOCKET_GET_MESSAGE, SOCKET_GET_USER, SOCKET_SEND_MESSAGE } from "@/constants";
 
 export const config = {
   api: {
@@ -23,7 +23,7 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
     let onlineUsers: OnlineUsers[] = []
 
     io.on("connection", (socket) => {
-      
+
       socket.on(SOCKET_ADD_USER, userId => {
         const isUserExist = onlineUsers.find(user => user.userId === userId)
         if (!isUserExist) {
@@ -31,6 +31,20 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
           onlineUsers.push(user)
 
           io.emit(SOCKET_GET_USER, onlineUsers)
+        }
+      })
+
+      socket.on(SOCKET_SEND_MESSAGE, ({ senderId, receiverId, message, messageType }) => {
+        const receiver = onlineUsers.find(user => user.userId === receiverId)
+        const sender = onlineUsers.find(user => user.userId === senderId)
+
+        if (receiver) {
+          io.to(receiver.socketId).to(sender?.socketId!).emit(SOCKET_GET_MESSAGE, {
+            senderId,
+            receiverId,
+            message,
+            messageType,
+          })
         }
       })
 
