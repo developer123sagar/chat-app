@@ -21,6 +21,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-gray-100 text-gray-950 relative`}>
         <ReduxProvider>{children}</ReduxProvider>
         <Toaster position="top-right" />
+        <div id="photo-picker-element"></div>
       </body>
     </html>
   );
