@@ -7,7 +7,7 @@ import { ReduxProvider } from "@/provider/ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 export const metadata: Metadata = {
-  title: "Jiffychat",
+  title: "JiffyChat",
   description: "Powerful chat app",
 };
 

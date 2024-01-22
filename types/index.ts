@@ -34,3 +34,21 @@ export type ChatListItemProps = {
     data: ContactListUser;
     isContactPage: boolean;
 };
+
+export type GenderProps = {
+    selectedGender: string;
+    setGender: (value: string) => void;
+};
+
+export type OnboardingAvatarProps = {
+    type: "sm" | "lg" | "xl";
+    image: string;
+    setImage: (image: string) => void;
+};
+
+export type InputProps = {
+    name: string;
+    state: string; 
+    setState: (state: string) => void;
+    label: boolean;
+}

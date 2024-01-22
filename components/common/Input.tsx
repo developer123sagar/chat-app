@@ -1,9 +1,11 @@
 import React from "react";
-function Input({ name, state, setState, label = false}){
+import { InputProps } from "@/types";
+
+function Input({ name, state, setState, label = false} : InputProps){
     return(
         <div className="flex gap-1 flex-col">
             {label && (
-                <label htmlFor={name} className="text-teal-light text-lg px-1">
+                <label htmlFor={name} className="text-teal-light text-lg px-1 text-white">
                     {name}
                 </label>
             )}

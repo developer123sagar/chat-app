@@ -1,8 +1,9 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaCamera } from "react-icons/fa";
+import { OnboardingAvatarProps } from "@/types";
 
-function Avatar({ type, image, setImage }){
+function Avatar({ type, image, setImage }: OnboardingAvatarProps){
     const [hover, setHover] = useState(false);
     return (
         <>
@@ -27,7 +28,7 @@ function Avatar({ type, image, setImage }){
                             ${hover ? "visible" : "hidden"}
                             `}>
                             <FaCamera className="text-2xl" id="context-opener"/>
-                            <span> Change Profile Photo </span>
+                            <span className="text-white"> Change Profile Photo </span>
                         </div>
                         <div className="flex items-center justify-center h-36 w-36">
                             <Image src={image} alt="avatar" height={140} width={140} />

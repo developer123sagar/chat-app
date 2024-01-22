@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
+import { GenderProps } from "@/types";
 
-function Gender({ selectedGender, setGender }) {
+const Gender: React.FC<GenderProps> = ({ selectedGender, setGender }) => {
+  const handleGenderChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setGender(e.target.value);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-2">
       <div>
         <select
           id="gender"
           value={selectedGender}
-          onChange={(e) => setGender(e.target.value)}
+          onChange={handleGenderChange}
           className="bg-input-backgroun h-10 rounded-lg px-2 py-2 w-full"
         >
           <option value="" disabled>Select gender</option>
@@ -18,6 +23,6 @@ function Gender({ selectedGender, setGender }) {
       </div>
     </div>
   );
-}
+};
 
 export default Gender;
