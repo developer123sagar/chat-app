@@ -18,8 +18,7 @@ export const MessageReducer = createSlice({
             state.isGettingMsg = action.payload;
         },
         addMessage: (state, action) => {
-            console.log(action.payload)
-            state.messages = [...state.messages, action.payload]
+            state.messages = Array.isArray(state.messages) ? [...state.messages, action.payload] : [action.payload];
         }
     }
 })

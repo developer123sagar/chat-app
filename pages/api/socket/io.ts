@@ -17,7 +17,6 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
     const httpServer: NetServer = res.socket.server as any;
     const io = new ServerIO(httpServer, {
       path: path,
-      addTrailingSlash: false,
     });
 
     let onlineUsers: OnlineUsers[] = []
@@ -29,12 +28,11 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
         if (!isUserExist) {
           const user = { userId, socketId: socket.id }
           onlineUsers.push(user)
-
           io.emit(SOCKET_GET_USER, onlineUsers)
         }
       })
 
-      socket.on(SOCKET_SEND_MESSAGE, ({ senderId, receiverId, message, messageType }) => {
+      socket.on(SOCKET_SEND_MESSAGE, async({ senderId, receiverId, message, messageType, createdAt, messageStatus }) => {
         const receiver = onlineUsers.find(user => user.userId === receiverId)
         const sender = onlineUsers.find(user => user.userId === senderId)
 
@@ -44,6 +42,8 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
             receiverId,
             message,
             messageType,
+            createdAt,
+            messageStatus,
           })
         }
       })

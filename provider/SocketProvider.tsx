@@ -22,7 +22,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       process.env.DOMAIN_LOCALHOST_URL!,
       {
         path: "/api/socket/io",
-        addTrailingSlash: false,
       }
     );
 

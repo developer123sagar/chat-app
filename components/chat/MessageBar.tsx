@@ -31,6 +31,8 @@ const MessageBar = () => {
       receiverId: currentChatUser?._id,
       message: form.message,
       messageType: "text",
+      messageStatus: "DELIVERED",
+      createdAt: new Date().toISOString(),
     });
 
     if (currentChatUser) {
@@ -72,22 +74,21 @@ const MessageBar = () => {
               onChange={(e) => seetForm({ ...form, message: e.target.value })}
             />
             <div className="flex-center">
-              <Button
-                onClick={handleMessageSubmit}
-                className="px-5 flex-center"
-              >
-                <MdSend
-                  className="text-gray-200 cursor-pointer text-xl"
-                  title="send message"
-                />
-              </Button>
-              <div className="px-5">
-                <FaMicrophone
-                  className="text-gray-200 cursor-pointer text-xl"
-                  title="record"
-                  size={25}
-                />
-              </div>
+              {form.message.length > 0 ? (
+                <Button onClick={handleMessageSubmit}>
+                  <MdSend
+                    className="text-gray-200 cursor-pointer text-xl"
+                    title="send message"
+                  />
+                </Button>
+              ) : (
+                <Button>
+                  <FaMicrophone
+                    className="text-gray-200 cursor-pointer text-xl"
+                    title="record"
+                  />
+                </Button>
+              )}
             </div>
           </li>
         </ul>

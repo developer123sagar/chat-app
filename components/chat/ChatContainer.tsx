@@ -5,7 +5,7 @@ import MessageStatusComp from "@/components/chat/MessageStatusComp";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useGetMessagesQuery } from "@/redux/api/MessageApi";
 import { calculateTime } from "@/helper/CalculateTime";
-import { setMessage } from "@/redux/reducer/MessageReducer";
+import { addMessage, setMessage } from "@/redux/reducer/MessageReducer";
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_GET_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
@@ -27,15 +27,13 @@ const ChatContainer = () => {
 
   useEffect(() => {
     socket.on(SOCKET_GET_MESSAGE, (data: MessageType) => {
-      console.log(data, "socket get msg");
+      dispatch(addMessage(data));
     });
   }, [socket, dispatch]);
 
   useEffect(() => {
-    if (currentChatUser) {
-      dispatch(setMessage(msg));
-    }
-  }, [currentChatUser, dispatch, msg]);
+    dispatch(setMessage(msg));
+  }, [dispatch, msg]);
 
   return (
     <div className="h-[80vh] z-50 py-3 px-4 w-full relative flex-grow overflow-auto custom-scrollbar">

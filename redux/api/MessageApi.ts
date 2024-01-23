@@ -13,7 +13,7 @@ export const messageAPI = createApi({
             query: (to) => ({ url: `${GET_MESSAGE}/${to}` }),
             transformResponse: (res: any) => res.data,
             transformErrorResponse: (err: any) => err.data,
-            providesTags: ["message"],
+            providesTags: ["message"]
         }),
         sendMessage: builder.mutation<MessageType, any>({
             query: (form) => ({

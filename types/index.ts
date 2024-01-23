@@ -33,6 +33,10 @@ export type ContactListState = {
     currentChatUser: ContactListUser | null;
     skipUserInfo: boolean;
     loginUser: ContactListUser | null;
+    onlineUsers: {
+        userId: string;
+        socketId: string;
+    }[] | null
 };
 
 export type ChatListItemProps = {

@@ -1,5 +1,6 @@
-import Tooltip from "@/components/custom/Tooltip";
 import Avatar from "@/components/custom/Avatar";
+import Badge from "@/components/custom/Badge";
+import Tooltip from "@/components/custom/Tooltip";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoVideocam } from "react-icons/io5";
@@ -22,6 +23,7 @@ const ChatHeader = () => {
               <span className="text-gray-200 text-sm">
                 {capitalizeFirstLetter(currentChatUser?.username as string)}
               </span>
+              <Badge />
             </div>
           </li>
           <li className="flex gap-4">

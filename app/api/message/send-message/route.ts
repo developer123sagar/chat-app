@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
             cookies().set('token', '', { maxAge: 0 })
             return NextResponse.json({ message: "Unauthorized access" }, { status: 401 });
         }
+        
         const reqBody = await req.json();
-
         const { message, to } = reqBody;
 
         if (message && to && userId != to) {
