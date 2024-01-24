@@ -1,7 +1,6 @@
 "use client";
 import React from 'react'
 import { useState } from 'react';
-import Image from "next/image";
 import Input from "@/components/common/Input";
 import Avatar from "@/components/common/OnboardingAvatar";
 import Gender from "@/components/common/Gender";

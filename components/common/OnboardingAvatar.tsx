@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
@@ -14,8 +15,8 @@ function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
     y: 0,
   });
 
-  const[grabPhoto, setGrabPhoto] = useState(false);
-  const [showCapturePhoto,setShowCapturePhoto] = useState(false);
+  const [grabPhoto, setGrabPhoto] = useState(false);
+  const [showCapturePhoto, setShowCapturePhoto] = useState(false);
 
   const showContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -24,30 +25,39 @@ function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
   };
 
   useEffect(() => {
-    if(grabPhoto) {
-        const data = document.getElementById("photo-picker");
-        if (data) {
-            data.click();
-            document.body.onfocus = (e) => {
-                setTimeout(()=>{
-                    setGrabPhoto(false)
-                },1000)
-            }
-        }
+    if (grabPhoto) {
+      const data = document.getElementById("photo-picker");
+      if (data) {
+        data.click();
+        document.body.onfocus = (e: FocusEvent) => {
+          setTimeout(() => {
+            setGrabPhoto(false);
+          }, 1000);
+        };
+      }
     }
-  },[grabPhoto])
+  }, [grabPhoto]);
 
   const contextMenuOptions = [
-    { name: "Take Photo", callback: () => {
+    {
+      name: "Take Photo",
+      callback: () => {
         setShowCapturePhoto(true);
-    } },
+      },
+    },
     // { name: "Choose From Library", callback: () => {} },
-    { name: "Upload Photo", callback: () => {
+    {
+      name: "Upload Photo",
+      callback: () => {
         setGrabPhoto(true);
-    } },
-    { name: "Remove Photo", callback: () => {
+      },
+    },
+    {
+      name: "Remove Photo",
+      callback: () => {
         setImage("/imgs/avatar.png");
-    } },
+      },
+    },
   ];
 
   const photoPickerChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,21 +65,20 @@ function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
     if (file) {
       const reader = new FileReader();
       const data = document.createElement("img");
-  
+
       reader.onload = function (event) {
-        const result = event.target?.result ?? '';
+        const result = event.target?.result ?? "";
         data.src = result as string;
         data.setAttribute("data-src", result as string);
       };
-  
+
       reader.readAsDataURL(file);
-      
+
       setTimeout(() => {
         setImage(data.src);
       }, 100);
     }
   };
-  
 
   return (
     <>
@@ -111,7 +120,15 @@ function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
               </span>
             </div>
             <div className="flex items-center justify-center h-36 w-36 overflow-hidden">
-              <Image src={image} alt="avatar" height={140} width={140} className="rounded-full" layout="fixed" objectFit="cover"/>
+              <Image
+                src={image}
+                alt="avatar"
+                height={140}
+                width={140}
+                className="rounded-full w-36 h-36"
+                layout="fixed"
+                objectFit="cover"
+              />
             </div>
           </div>
         )}
@@ -126,9 +143,9 @@ function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
         />
       )}
       {showCapturePhoto && (
-        <CapturePhoto setImage={setImage} hide={setShowCapturePhoto}/>
+        <CapturePhoto setImage={setImage} hide={setShowCapturePhoto} />
       )}
-      {grabPhoto && <PhotoPicker onChange={photoPickerChange}/>}
+      {grabPhoto && <PhotoPicker onChange={photoPickerChange} />}
     </>
   );
 }

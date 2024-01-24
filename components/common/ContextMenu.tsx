@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useRef, MouseEvent, useEffect } from "react";
 
 interface Option {
@@ -20,20 +21,23 @@ function ContextMenu({
 }: ContextMenuProps) {
   const contextMenuRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(()=> {
+  useEffect(() => {
     const handleOutsideClick: EventListener = (event) => {
       const target = event.target as HTMLElement;
-      if(target.id !== "context-opener"){
-        if(contextMenuRef.current && !contextMenuRef.current.contains(target)){
-          setContextMenu(false)
+      if (target.id !== "context-opener") {
+        if (
+          contextMenuRef.current &&
+          !contextMenuRef.current.contains(target)
+        ) {
+          setContextMenu(false);
         }
       }
     };
-    document.addEventListener("click",handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
     return () => {
       document.removeEventListener("click", handleOutsideClick);
-    }
-  }, []);
+    };
+  }, [setContextMenu]);
 
   const handleClick = (e: MouseEvent, callback: () => void) => {
     e.stopPropagation();
