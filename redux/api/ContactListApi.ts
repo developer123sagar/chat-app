@@ -7,7 +7,7 @@ import { ContactList } from "@/types";
 export const contactListAPI = createApi({
     reducerPath: "contactListAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.DOMAIN_LOCALHOST_URL,
+        baseUrl: process.env.DOMAIN_URL,
     }),
     endpoints: (builder) => ({
         getContactList: builder.query<ContactList, void>({
