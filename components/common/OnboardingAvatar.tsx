@@ -6,7 +6,7 @@ import ContextMenu from "./ContextMenu";
 import PhotoPicker from "./PhotoPicker";
 import CapturePhoto from "./CapturePhoto";
 
-function Avatar({ type, image, setImage }: OnboardingAvatarProps) {
+function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
   const [hover, setHover] = useState(false);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [contextMenuCordinates, setContextMenuCordinates] = useState({
@@ -86,7 +86,7 @@ function Avatar({ type, image, setImage }: OnboardingAvatarProps) {
         )}
         {type === "xl" && (
           <div
-            className="relative cursor-pointer z-0"
+            className="relative cursor-pointer z-0 rounded-full overflow-hidden"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
@@ -110,8 +110,8 @@ function Avatar({ type, image, setImage }: OnboardingAvatarProps) {
                 Change Profile Photo
               </span>
             </div>
-            <div className="flex items-center justify-center h-36 w-36">
-              <Image src={image} alt="avatar" height={140} width={140} />
+            <div className="flex items-center justify-center h-36 w-36 overflow-hidden">
+              <Image src={image} alt="avatar" height={140} width={140} className="rounded-full" layout="fixed" objectFit="cover"/>
             </div>
           </div>
         )}
@@ -133,4 +133,4 @@ function Avatar({ type, image, setImage }: OnboardingAvatarProps) {
   );
 }
 
-export default Avatar;
+export default OnAvatar;
