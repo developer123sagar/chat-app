@@ -8,7 +8,7 @@ import { SocketProvider } from "@/provider/SocketProvider";
 
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 export const metadata: Metadata = {
-  title: "Jiffychat",
+  title: "JiffyChat",
   description: "Powerful chat app",
 };
 
@@ -23,6 +23,7 @@ export default function RootLayout({
         <SocketProvider>
           <ReduxProvider>{children}</ReduxProvider>
           <Toaster position="top-right" />
+          <div id="photo-picker-element" />
         </SocketProvider>
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { Server as NetServer, Socket } from "net";
 import { NextApiResponse } from "next";
+import React, { Dispatch, SetStateAction } from "react";
 import { Server as SocketIOServer } from "socket.io";
 
 export type PageType = "DEFAULT" | "ALL_CONTACTS"
@@ -76,4 +77,22 @@ export type SocketContextType = {
 export type OnlineUsers = {
     userId: string;
     socketId: string;
+}
+
+export type GenderProps = {
+    selectedGender: string;
+    setGender: () => React.Dispatch<SetStateAction<string>>;
+};
+
+export type OnboardingAvatarProps = {
+    type: "sm" | "lg" | "xl";
+    image: string;
+    setImage: Dispatch<SetStateAction<string>>;
+};
+
+export type InputProps = {
+    name: string;
+    state: string;
+    setState: () => React.Dispatch<SetStateAction<string>>;
+    label: boolean;
 }

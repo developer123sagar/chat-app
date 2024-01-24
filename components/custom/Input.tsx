@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { cn } from "@/lib/utils";
 import { InputHTMLAttributes } from "react";
@@ -10,6 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   required?: boolean;
   disabled?: boolean;
   className?: string;
+  labelClass?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,13 +20,24 @@ const Input: React.FC<InputProps> = ({
   required = true,
   disabled = false,
   className,
+  labelClass,
   ...props
 }) => {
   return (
     <div>
       <label
         htmlFor={id}
-        className="block text-sm font-medium leading-6 text-gray-900"
+        className={cn(
+          `
+         block
+         text-sm 
+         font-medium 
+         leading-6
+        text-gray-900
+        `,
+          labelClass,
+          {}
+        )}
       >
         {label}
       </label>
@@ -35,7 +47,8 @@ const Input: React.FC<InputProps> = ({
           type={type}
           disabled={disabled}
           required={required}
-          className={cn(`
+          className={cn(
+            `
           form_control 
           block 
           w-full 
@@ -47,7 +60,10 @@ const Input: React.FC<InputProps> = ({
           text-gray-900 
           placeholder:text-gray-900 
           sm:text-sm 
-          sm:leading-6`, className,{})}
+          sm:leading-6`,
+            className,
+            {}
+          )}
           {...props}
         />
       </div>
