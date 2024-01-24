@@ -5,7 +5,7 @@ import { ContactListUser } from "@/types";
 export const authAPI = createApi({
     reducerPath: "authAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.DOMAIN_URL,
+        baseUrl: process.env.DOMAIN_LOCALHOST_URL,
     }),
     tagTypes: ["user"],
     endpoints: (builder) => ({
