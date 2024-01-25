@@ -1,3 +1,6 @@
+"use client";
+
+
 import { useEffect } from "react";
 
 import Spinner from "@/components/Spinner";
@@ -5,7 +8,10 @@ import MessageStatusComp from "@/components/chat/MessageStatusComp";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useGetMessagesQuery } from "@/redux/api/MessageApi";
 import { calculateTime } from "@/helper/CalculateTime";
-import { addMessage, setMessage } from "@/redux/reducer/MessageReducer";
+import {
+  addMessage,
+  setMessage,
+} from "@/redux/reducer/MessageReducer";
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_GET_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
@@ -59,7 +65,7 @@ const ChatContainer = () => {
                         : "bg-[#4890d8]"
                     }`}
                   >
-                    <p className="text-white break-all">{msg.message}</p>
+                    <p className="text-white break-all text-base">{msg.message}</p>
                     <div className="flex gap-1 items-end ">
                       <span
                         className={`text-[11px] text-gray-300 pt-1 min-w-fit`}
@@ -76,6 +82,7 @@ const ChatContainer = () => {
                 )}
               </li>
             ))}
+         
         </ul>
       </div>
     </div>
