@@ -2,10 +2,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GET_USER_INFO } from "@/constants";
 import { ContactListUser } from "@/types";
 
+// DOMAIN_LOCALHOST_URL
+
 export const authAPI = createApi({
     reducerPath: "authAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.DOMAIN_LOCALHOST_URL,
+        baseUrl: process.env.DOMAIN_URL,
     }),
     tagTypes: ["user"],
     endpoints: (builder) => ({

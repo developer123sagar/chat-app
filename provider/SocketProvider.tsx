@@ -16,10 +16,11 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  //DOMAIN_LOCALHOST_URL
 
   useEffect(() => {
     const socketInstance = new (ClientIO as any)(
-      process.env.DOMAIN_LOCALHOST_URL!,
+      process.env.DOMAIN_URL!,
       {
         path: "/api/socket/io",
       }

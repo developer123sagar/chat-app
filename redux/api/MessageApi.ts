@@ -2,10 +2,12 @@ import { GET_MESSAGE, SEND_IMAGE, SEND_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+// DOMAIN_LOCALHOST_URL
+
 export const messageAPI = createApi({
     reducerPath: "messageAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.DOMAIN_LOCALHOST_URL,
+        baseUrl: process.env.DOMAIN_URL,
     }),
     tagTypes: ["message"],
     endpoints: (builder) => ({
