@@ -55,7 +55,7 @@ export type MessageType = {
     messageType: MsgType;
     createdAt: Date;
     imagePubliId?: string;
-    updatedAt: Date;
+    updatedAt?: Date;
 }
 
 export type MessageState = {

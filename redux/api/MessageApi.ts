@@ -2,12 +2,10 @@ import { GET_MESSAGE, SEND_IMAGE, SEND_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// DOMAIN_LOCALHOST_URL
-
 export const messageAPI = createApi({
     reducerPath: "messageAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.DOMAIN_URL,
+        baseUrl: process.env.DOMAIN_LOCALHOST_URL,
     }),
     tagTypes: ["message"],
     endpoints: (builder) => ({
@@ -30,7 +28,7 @@ export const messageAPI = createApi({
                 method: "POST",
                 body: formData,
             }),
-            transformResponse: (res: any) => res.message
+            transformResponse: (res: any) => res.data
         })
     })
 })

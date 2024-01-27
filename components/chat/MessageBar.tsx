@@ -9,6 +9,7 @@ import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
 import { FaMicrophone } from "react-icons/fa";
 
+import PhotoPicker from "@/components/common/PhotoPicker";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,7 +25,7 @@ import {
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_SEND_MESSAGE } from "@/constants";
 import { addMessage } from "@/redux/reducer/MessageReducer";
-import PhotoPicker from "../common/PhotoPicker";
+import { MsgType } from "@/types";
 
 type Emoji = {
   emoji: any;
@@ -51,18 +52,22 @@ const MessageBar = () => {
     (user) => user.userId === currentChatUser?._id
   );
 
+  const createMessageData = (message: string, messageType: MsgType): any => {
+    return {
+      senderId: loginUser?._id!,
+      receiverId: currentChatUser?._id!,
+      message,
+      messageType,
+      messageStatus: isOnline ? "SEEN" : "SENT",
+      createdAt: new Date().toISOString(),
+    };
+  };
+
   const handleMessageSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setForm({ ...form, message: "" });
 
-    const msgData = {
-      senderId: loginUser?._id,
-      receiverId: currentChatUser?._id,
-      message: form.message,
-      messageType: "text",
-      messageStatus: isOnline ? "SEEN" : "SENT",
-      createdAt: new Date().toISOString(),
-    };
+    const msgData = createMessageData(form.message, "text");
 
     socket.emit(SOCKET_SEND_MESSAGE, msgData);
     if (!isOnline) {
@@ -100,14 +105,25 @@ const MessageBar = () => {
 
   const photoPickerChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
-    if (e.target.files) formData.append("image", e.target.files[0] as File);
-    formData.append("receiver", currentChatUser?._id as string);
+    if (e.target.files) {
+      let imageUrl = URL.createObjectURL(e.target.files[0]);
+      formData.append("image", e.target.files[0] as File);
+      formData.append("receiver", currentChatUser?._id as string);
 
-    try {
-      const res = sendImg(formData).unwrap;
-      console.log(res);
-    } catch (err) {
-      console.log(err);
+      if (!isOnline) {
+        const imgMsgData = createMessageData(imageUrl, "image");
+        dispatch(addMessage(imgMsgData));
+      }
+
+      try {
+        const res = await sendImg(formData).unwrap();
+        if (res.message) {
+          const socketImgData = createMessageData(res.message, "image");
+          socket.emit(SOCKET_SEND_MESSAGE, socketImgData);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

@@ -7,7 +7,13 @@ interface PhotoPickerProps {
 
 const PhotoPicker: React.FC<PhotoPickerProps> = ({ onChange }) => {
   const component = (
-    <input type="file" hidden id="photo-picker" onChange={onChange} />
+    <input
+      type="file"
+      hidden
+      id="photo-picker"
+      accept=".png, .jpg, jpeg"
+      onChange={onChange}
+    />
   );
 
   return ReactDOM.createPortal(

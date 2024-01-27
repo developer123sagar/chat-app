@@ -51,7 +51,7 @@ const ChatContainer = () => {
   });
 
   return (
-    <div className="h-[80vh] py-3 px-4 w-full relative flex-grow overflow-auto custom-scrollbar">
+    <div className="h-[80vh] py-3 px-4 w-full flex-grow overflow-auto custom-scrollbar relative">
       <div className="flex w-full">
         <div
           className="flex flex-col justify-end w-full gap-1 overflow-auto z-50"
