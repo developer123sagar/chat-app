@@ -1,22 +1,23 @@
 "use client";
 
-
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import Spinner from "@/components/Spinner";
 import MessageStatusComp from "@/components/chat/MessageStatusComp";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useGetMessagesQuery } from "@/redux/api/MessageApi";
 import { calculateTime } from "@/helper/CalculateTime";
-import {
-  addMessage,
-  setMessage,
-} from "@/redux/reducer/MessageReducer";
+import { addMessage, setMessage } from "@/redux/reducer/MessageReducer";
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_GET_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
+import { useChatScroll } from "@/hooks/use-chat-scroll";
+import ImageMessage from "./ImageMessage";
 
 const ChatContainer = () => {
+  const chatRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
@@ -41,15 +42,26 @@ const ChatContainer = () => {
     dispatch(setMessage(msg));
   }, [dispatch, msg]);
 
+  useChatScroll({
+    chatRef,
+    bottomRef,
+    shouldLoadMore: false,
+    loadMore: () => {},
+    count: messages && messages?.length,
+  });
+
   return (
-    <div className="h-[80vh] z-50 py-3 px-4 w-full relative flex-grow overflow-auto custom-scrollbar">
+    <div className="h-[80vh] py-3 px-4 w-full relative flex-grow overflow-auto custom-scrollbar">
       <div className="flex w-full">
-        <ul className="flex flex-col justify-end w-full gap-1 overflow-auto">
+        <div
+          className="flex flex-col justify-end w-full gap-1 overflow-auto z-50"
+          ref={chatRef}
+        >
           {isLoading && <Spinner btn />}
           {isSuccess &&
             messages &&
             messages?.map((msg, id) => (
-              <li
+              <div
                 key={msg._id || id}
                 className={`flex ${
                   msg.senderId === currentChatUser?._id
@@ -65,7 +77,9 @@ const ChatContainer = () => {
                         : "bg-[#4890d8]"
                     }`}
                   >
-                    <p className="text-white break-all text-base">{msg.message}</p>
+                    <p className="text-white break-all text-[16px]">
+                      {msg.message}
+                    </p>
                     <div className="flex gap-1 items-end ">
                       <span
                         className={`text-[11px] text-gray-300 pt-1 min-w-fit`}
@@ -80,10 +94,11 @@ const ChatContainer = () => {
                     </div>
                   </div>
                 )}
-              </li>
+                {msg.messageType === "image" && <ImageMessage message={msg} />}
+              </div>
             ))}
-         
-        </ul>
+          <div ref={bottomRef} />
+        </div>
       </div>
     </div>
   );

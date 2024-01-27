@@ -1,4 +1,4 @@
-import { GET_MESSAGE, SEND_MESSAGE } from "@/constants";
+import { GET_MESSAGE, SEND_IMAGE, SEND_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -21,8 +21,16 @@ export const messageAPI = createApi({
                 body: form
             }),
             transformErrorResponse: (err) => err.data,
+        }),
+        sendImage: builder.mutation<MessageType, any>({
+            query: (formData) => ({
+                url: SEND_IMAGE,
+                method: "POST",
+                body: formData,
+            }),
+            transformResponse: (res: any) => res.message
         })
     })
 })
 
-export const { useGetMessagesQuery, useSendMessageMutation } = messageAPI
+export const { useGetMessagesQuery, useSendMessageMutation, useSendImageMutation } = messageAPI

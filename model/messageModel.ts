@@ -22,7 +22,8 @@ const messageSchema: Schema = new mongoose.Schema({
     messageType: {
         type: String,
         default: "text"
-    }
+    },
+    imagePubliId: String,
 }, {
     timestamps: true,
 })

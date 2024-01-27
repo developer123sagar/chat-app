@@ -15,3 +15,4 @@ export const POST_SIGNUP = `${AUTH_ROUTE}/signup`;
 
 export const SEND_MESSAGE = `${MSG_ROUTE}/send-message`
 export const GET_MESSAGE = `${MSG_ROUTE}/get-message`
+export const SEND_IMAGE = `${MSG_ROUTE}/image/upload`

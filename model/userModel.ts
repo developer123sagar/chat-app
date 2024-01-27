@@ -30,8 +30,6 @@ const userSchema: Schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    sentMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
-    receivedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
     role: {
         type: String,
         enum: ["USER", "ADMIN"],

@@ -10,17 +10,21 @@ import { MdSend } from "react-icons/md";
 import { FaMicrophone } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { FormEvent, useState } from "react";
-import { useSendMessageMutation } from "@/redux/api/MessageApi";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import {
+  useSendImageMutation,
+  useSendMessageMutation,
+} from "@/redux/api/MessageApi";
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_SEND_MESSAGE } from "@/constants";
 import { addMessage } from "@/redux/reducer/MessageReducer";
-import {
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+import PhotoPicker from "../common/PhotoPicker";
 
 type Emoji = {
   emoji: any;
@@ -31,13 +35,17 @@ const MessageBar = () => {
     message: "",
     to: "",
   });
+  const [grabPhoto, setGrabPhoto] = useState(false);
+  const photoPicker = useRef(null);
+
   const { currentChatUser, loginUser, onlineUsers } = useAppSelector(
     (state: RootState) => state.contactList
   );
-
   const dispatch = useAppDispatch();
   const { socket } = useSocket();
+
   const [sendMsg] = useSendMessageMutation();
+  const [sendImg] = useSendImageMutation();
 
   const isOnline = onlineUsers?.some(
     (user) => user.userId === currentChatUser?._id
@@ -76,22 +84,52 @@ const MessageBar = () => {
     setForm((prev) => ({ ...prev, message: (prev.message += emoji.emoji) }));
   };
 
+  useEffect(() => {
+    if (grabPhoto) {
+      const data = document.getElementById("photo-picker");
+      if (data) {
+        data.click();
+        document.body.onfocus = () => {
+          setTimeout(() => {
+            setGrabPhoto(false);
+          }, 1000);
+        };
+      }
+    }
+  }, [grabPhoto]);
+
+  const photoPickerChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData();
+    if (e.target.files) formData.append("image", e.target.files[0] as File);
+    formData.append("receiver", currentChatUser?._id as string);
+
+    try {
+      const res = sendImg(formData).unwrap;
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       {currentChatUser && (
-        <ul className="h-20 px-4 flex items-center gap-6 bg-gray-800">
-          <li className="flex gap-6">
+        <ul className="h-20 relative px-4 flex items-center gap-6 bg-gray-800">
+          <li className="flex gap-6 z-[9999] bg-opacity-95 opacity-95">
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <BsEmojiSmile className="text-gray-200 cursor-pointer text-xl" />
+                <BsEmojiSmile
+                  title="Emoji"
+                  className="text-gray-200 cursor-pointer text-xl"
+                />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+
+              <DropdownMenuContent className="relative left-[9.5rem] bottom-8">
                 <EmojiPicker
                   theme={Theme.DARK}
                   emojiStyle={EmojiStyle.FACEBOOK}
                   suggestedEmojisMode={SuggestionMode.FREQUENT}
                   onEmojiClick={handleEmojiClick}
-                  className="z-50 relative left-40 bottom-8"
                 />
               </DropdownMenuContent>
             </DropdownMenu>
@@ -99,6 +137,8 @@ const MessageBar = () => {
             <ImAttachment
               className="text-gray-200 cursor-pointer text-xl"
               title="Attach File"
+              ref={photoPicker}
+              onClick={() => setGrabPhoto(true)}
             />
           </li>
           <li className="w-full rounded-lg h-10 flex gap-10 items-center">
@@ -114,14 +154,14 @@ const MessageBar = () => {
                 <Button onClick={handleMessageSubmit}>
                   <MdSend
                     className="text-gray-200 cursor-pointer text-xl"
-                    title="send message"
+                    title="Send message"
                   />
                 </Button>
               ) : (
                 <Button>
                   <FaMicrophone
                     className="text-gray-200 cursor-pointer text-xl"
-                    title="record"
+                    title="Record"
                   />
                 </Button>
               )}
@@ -129,6 +169,7 @@ const MessageBar = () => {
           </li>
         </ul>
       )}
+      {grabPhoto && <PhotoPicker onChange={photoPickerChange} />}
     </>
   );
 };

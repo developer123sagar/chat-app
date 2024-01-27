@@ -44,6 +44,7 @@ export type ChatListItemProps = {
     data: ContactListUser;
 };
 export type MessageStatus = "SENT" | "DELIVERED" | "SEEN"
+export type MsgType = "image" | "text" | "voice"
 
 export type MessageType = {
     _id?: string;
@@ -51,8 +52,9 @@ export type MessageType = {
     senderId: string;
     messageStatus: MessageStatus;
     message: string;
-    messageType: string;
+    messageType: MsgType;
     createdAt: Date;
+    imagePubliId?: string;
     updatedAt: Date;
 }
 
@@ -96,3 +98,11 @@ export type InputProps = {
     setState: () => React.Dispatch<SetStateAction<string>>;
     label: boolean;
 }
+
+export type ChatScrollProps = {
+    chatRef: React.RefObject<HTMLDivElement>;
+    bottomRef: React.RefObject<HTMLDivElement>;
+    shouldLoadMore: boolean;
+    loadMore: () => void;
+    count: number;
+};

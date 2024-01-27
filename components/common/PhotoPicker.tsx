@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
-import React, { ChangeEvent } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
 interface PhotoPickerProps {
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const PhotoPicker: React.FC<PhotoPickerProps> = ({ onChange }) => {

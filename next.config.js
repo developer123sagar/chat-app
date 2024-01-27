@@ -11,7 +11,7 @@ const nextConfig = {
   reactStrictMode: false,
   typescript: {},
   images: {
-    domains: ["github.com"],
+    domains: ["github.com", "res.cloudinary.com"],
   },
 };
 

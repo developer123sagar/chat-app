@@ -6,7 +6,7 @@ import "./globals.css";
 import { ReduxProvider } from "@/provider/ReduxProvider";
 import { SocketProvider } from "@/provider/SocketProvider";
 
-const inter = Inter({ subsets: ["latin"], weight: "400" });
+const inter = Inter({ subsets: ["latin"], weight: "300" });
 export const metadata: Metadata = {
   title: "JiffyChat",
   description: "Powerful chat app",
