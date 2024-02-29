@@ -1,9 +1,10 @@
-import { connect } from "@/config/mongo.config";
-import { getTokenData } from "@/helper/backend/getTokenData";
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+
 import Message from "@/model/messageModel";
 import User from "@/model/userModel";
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { connect } from "@/config/mongo.config";
+import { getTokenData } from "@/helper/backend/getTokenData";
 
 connect()
 
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
             cookies().set('token', '', { maxAge: 0 })
             return NextResponse.json({ message: "Unauthorized access" }, { status: 401 });
         }
-        
+
         const reqBody = await req.json();
         const { message, to } = reqBody;
 

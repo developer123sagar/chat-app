@@ -1,8 +1,9 @@
-import { connect } from "@/config/mongo.config";
-import { getTokenData } from "@/helper/backend/getTokenData";
-import Message from "@/model/messageModel";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+
+import Message from "@/model/messageModel";
+import { getTokenData } from "@/helper/backend/getTokenData";
+import { connect } from "@/config/mongo.config";
 
 connect()
 

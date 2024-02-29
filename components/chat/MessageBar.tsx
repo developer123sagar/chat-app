@@ -5,6 +5,7 @@ import EmojiPicker, {
   SuggestionMode,
 } from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
 import { FaMicrophone } from "react-icons/fa";
@@ -17,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { usePredictMSGMutation } from "@/redux/api/PredictMsgAPI";
 import {
   useSendImageMutation,
   useSendMessageMutation,
@@ -25,33 +26,35 @@ import {
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_SEND_MESSAGE } from "@/constants";
 import { addMessage } from "@/redux/reducer/MessageReducer";
-import { MsgType } from "@/types";
-
-type Emoji = {
-  emoji: any;
-};
+import { Emoji, MsgType, PredictMsg } from "@/types";
 
 const MessageBar = () => {
+  // usestate
   const [form, setForm] = useState({
     message: "",
     to: "",
   });
   const [grabPhoto, setGrabPhoto] = useState(false);
-  const photoPicker = useRef(null);
+  const [showAudioRecorder, setShowAudioRecorder] = useState(false);
 
+  // redux state
   const { currentChatUser, loginUser, onlineUsers } = useAppSelector(
     (state: RootState) => state.contactList
   );
   const dispatch = useAppDispatch();
   const { socket } = useSocket();
 
+  // rtk query api methods
   const [sendMsg] = useSendMessageMutation();
   const [sendImg] = useSendImageMutation();
+  const [predictMsg] = usePredictMSGMutation();
 
+  // checking is user online
   const isOnline = onlineUsers?.some(
     (user) => user.userId === currentChatUser?._id
   );
 
+  // creaating msg data to send
   const createMessageData = (message: string, messageType: MsgType): any => {
     return {
       senderId: loginUser?._id!,
@@ -66,22 +69,29 @@ const MessageBar = () => {
   const handleMessageSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setForm({ ...form, message: "" });
+    const res: PredictMsg = await predictMsg(form.message).unwrap();
 
-    const msgData = createMessageData(form.message, "text");
+    if (res.status === 200) {
+      const msgData = createMessageData(form.message, "text");
+      socket.emit(SOCKET_SEND_MESSAGE, msgData);
 
-    socket.emit(SOCKET_SEND_MESSAGE, msgData);
-    if (!isOnline) {
-      dispatch(addMessage(msgData));
-    }
-
-    if (currentChatUser) {
-      const updatedForm = { ...form };
-      updatedForm.to = currentChatUser?._id;
-      try {
-        await sendMsg(updatedForm).unwrap();
-      } catch (err: any) {
-        toast.error(err.error || "Something went wrong");
+      if (!isOnline) {
+        dispatch(addMessage(msgData));
       }
+
+      if (currentChatUser) {
+        const updatedForm = { ...form };
+        updatedForm.to = currentChatUser?._id;
+        try {
+          await sendMsg(updatedForm).unwrap();
+        } catch (err: any) {
+          toast.error(err.error || "Something went wrong");
+        }
+      }
+    } else if (res.status === 401) {
+      toast.error("Hate Speech Detected");
+    } else {
+      toast.error("Offensive Speech Detected");
     }
   };
 
@@ -131,58 +141,63 @@ const MessageBar = () => {
     <>
       {currentChatUser && (
         <ul className="h-20 relative px-4 flex items-center gap-6 bg-gray-800">
-          <li className="flex gap-6 z-[9999] bg-opacity-95 opacity-95">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <BsEmojiSmile
-                  title="Emoji"
+          {!showAudioRecorder && (
+            <>
+              <li className="flex gap-6 z-[9999] bg-opacity-95 opacity-95">
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <BsEmojiSmile
+                      title="Emoji"
+                      className="text-gray-200 cursor-pointer text-xl"
+                    />
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent className="relative left-[9.5rem] bottom-8">
+                    <EmojiPicker
+                      theme={Theme.DARK}
+                      emojiStyle={EmojiStyle.FACEBOOK}
+                      suggestedEmojisMode={SuggestionMode.FREQUENT}
+                      onEmojiClick={handleEmojiClick}
+                    />
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <ImAttachment
                   className="text-gray-200 cursor-pointer text-xl"
+                  title="Attach File"
+                  onClick={() => setGrabPhoto(true)}
                 />
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent className="relative left-[9.5rem] bottom-8">
-                <EmojiPicker
-                  theme={Theme.DARK}
-                  emojiStyle={EmojiStyle.FACEBOOK}
-                  suggestedEmojisMode={SuggestionMode.FREQUENT}
-                  onEmojiClick={handleEmojiClick}
+              </li>
+              <li className="w-full rounded-lg h-10 flex gap-10 items-center">
+                <input
+                  type="text"
+                  placeholder="Type a message"
+                  className="bg-gray-600 text-sm focus:outline-none text-white placeholder:text-white h-10 rounded px-5 py-4 w-full"
+                  value={form.message}
+                  onChange={(e) =>
+                    setForm({ ...form, message: e.target.value })
+                  }
                 />
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <ImAttachment
-              className="text-gray-200 cursor-pointer text-xl"
-              title="Attach File"
-              ref={photoPicker}
-              onClick={() => setGrabPhoto(true)}
-            />
-          </li>
-          <li className="w-full rounded-lg h-10 flex gap-10 items-center">
-            <input
-              type="text"
-              placeholder="Type a message"
-              className="bg-gray-600 text-sm focus:outline-none text-white placeholder:text-white h-10 rounded px-5 py-4 w-full"
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-            />
-            <div className="flex-center">
-              {form.message.length > 0 ? (
-                <Button onClick={handleMessageSubmit}>
-                  <MdSend
-                    className="text-gray-200 cursor-pointer text-xl"
-                    title="Send message"
-                  />
-                </Button>
-              ) : (
-                <Button>
-                  <FaMicrophone
-                    className="text-gray-200 cursor-pointer text-xl"
-                    title="Record"
-                  />
-                </Button>
-              )}
-            </div>
-          </li>
+                <div className="flex-center">
+                  {form.message.length > 0 ? (
+                    <Button onClick={handleMessageSubmit}>
+                      <MdSend
+                        className="text-gray-200 cursor-pointer text-xl"
+                        title="Send message"
+                      />
+                    </Button>
+                  ) : (
+                    <Button onClick={() => setShowAudioRecorder(true)}>
+                      <FaMicrophone
+                        className="text-gray-200 cursor-pointer text-xl"
+                        title="Record"
+                      />
+                    </Button>
+                  )}
+                </div>
+              </li>
+            </>
+          )}
         </ul>
       )}
       {grabPhoto && <PhotoPicker onChange={photoPickerChange} />}

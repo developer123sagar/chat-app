@@ -106,3 +106,12 @@ export type ChatScrollProps = {
     loadMore: () => void;
     count: number;
 };
+
+export type Emoji = {
+    emoji: any;
+};
+
+export type PredictMsg = {
+    prediction: string;
+    status: number;
+}

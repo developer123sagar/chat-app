@@ -1,6 +1,7 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 import { GET_MESSAGE, SEND_IMAGE, SEND_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const messageAPI = createApi({
     reducerPath: "messageAPI",
