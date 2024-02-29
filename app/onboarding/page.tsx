@@ -14,10 +14,11 @@ import Logo from "@/components/custom/Logo";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useUpdateProfileMutation } from "@/redux/api/ProfileUpdateApi";
+import Spinner from "@/components/Spinner";
 
 const Onboarding = () => {
   const [image, setImage] = useState("/imgs/avatar.png");
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const [form, setForm] = useState({
     avatar: "",
     about: "",
@@ -29,10 +30,10 @@ const Onboarding = () => {
 
   const handleUpdateProfile = async () => {
     const formData = new FormData();
-    formData.append("displayName",form.displayName)
-    formData.append("avatar",form.avatar)
-    formData.append("gender",form.displayName)
-    formData.append("about",form.about)
+    formData.append("displayName", form.displayName);
+    formData.append("avatar", form.avatar);
+    formData.append("gender", form.displayName);
+    formData.append("about", form.about);
     try {
       const res = await updateProfile(formData).unwrap();
       console.log(res);
@@ -72,7 +73,7 @@ const Onboarding = () => {
             onChange={(e) => setForm({ ...form, about: e.target.value })}
           />
           <Button className="py-3" onClick={handleUpdateProfile}>
-            Create Profile
+            {isLoading ? <Spinner btn /> : "Create Profile"}
           </Button>
         </div>
         <div>
