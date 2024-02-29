@@ -12,7 +12,8 @@ const ContactList = () => {
   const { data, isLoading, isSuccess, isError } = useGetContactListQuery();
 
   if (isError) {
-    return toast.error("Something went wrong");
+    toast.error("Unauthorized access");
+    window.location.reload();
   }
 
   return (

@@ -91,7 +91,7 @@ const MessageBar = () => {
     } else if (res.status === 401) {
       toast.error("Hate Speech Detected");
     } else {
-      toast.error("Offensive Speech Detected");
+      toast.error("Offensive Language Detected");
     }
   };
 

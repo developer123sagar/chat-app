@@ -12,7 +12,6 @@ export const contactListAPI = createApi({
         getContactList: builder.query<ContactList, void>({
             query: () => GET_CONTACT_LIST,
             transformResponse: (res: any) => res.data,
-            transformErrorResponse: (err: any) => err.data
         }),
     }),
 });

@@ -33,7 +33,6 @@ export default function HomePage() {
       dispatch(setUser(user));
       socket.emit(SOCKET_ADD_USER, user._id);
       socket.on(SOCKET_GET_USER, (users: OnlineUsers[]) => {
-        console.log(users,'online users')
         dispatch(setOnlineUsers(users));
       });
     }

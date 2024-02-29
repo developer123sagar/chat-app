@@ -1,20 +1,42 @@
+"use client";
+
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdOutlineChat } from "react-icons/md";
+import { useState } from "react";
 
 import Avatar from "@/components/custom/Avatar";
 import Tooltip from "@/components/custom/Tooltip";
-import { useAppDispatch } from "@/redux/store";
+import toast from "react-hot-toast";
 import { setContactPage } from "@/redux/reducer/ContactListReducer";
+import { useAppDispatch } from "@/redux/store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useLogOutQuery } from "@/redux/api/AuthApi";
+import { useRouter } from "next/navigation";
 
 export default function SidebarHeader() {
   const dispatch = useAppDispatch();
+  const [isLogout, setIsLogout] = useState(true);
+  const { data, isSuccess } = useLogOutQuery(null, { skip: isLogout });
+  const router = useRouter();
+
+  if (isSuccess) {
+    toast.success(data.message);
+    window.location.reload();
+  }
 
   return (
-    <ul className="h-16 px-4 py-3 flex justify-between items-center">
-      <li className="cursor-pointer">
+    <div className="h-16 px-4 py-3 flex justify-between items-center">
+      <div className="cursor-pointer">
         <Avatar src="/imgs/me.jpg" />
-      </li>
-      <li className="flex gap-6">
+      </div>
+      <div className="flex gap-6">
         <Tooltip text="All Contacts">
           <MdOutlineChat
             size={20}
@@ -23,14 +45,41 @@ export default function SidebarHeader() {
             onClick={() => dispatch(setContactPage())}
           />
         </Tooltip>
-        <Tooltip text="Settings">
-          <BsThreeDotsVertical
-            size={20}
-            color="white"
-            className="cursor-pointer"
-          />
-        </Tooltip>
-      </li>
-    </ul>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Tooltip text="Settings">
+              <BsThreeDotsVertical
+                size={20}
+                color="white"
+                className="cursor-pointer"
+              />
+            </Tooltip>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-gray-900 border-gray-900 text-white w-40">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer hover:bg-gray-700">
+              My Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push("/onboarding")}
+              className="cursor-pointer hover:bg-gray-700"
+            >
+              Onboarding
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer hover:bg-gray-700">
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setIsLogout(false)}
+              className="cursor-pointer hover:bg-gray-700"
+            >
+              Log Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
   );
 }
