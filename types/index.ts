@@ -90,6 +90,7 @@ export type OnboardingAvatarProps = {
     type: "sm" | "lg" | "xl";
     image: string;
     setImage: Dispatch<SetStateAction<string>>;
+    setForm: Dispatch<SetStateAction<any>>
 };
 
 export type InputProps = {

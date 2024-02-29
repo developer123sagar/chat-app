@@ -8,7 +8,7 @@ import Avatar from "@/components/custom/Avatar";
 import Tooltip from "@/components/custom/Tooltip";
 import toast from "react-hot-toast";
 import { setContactPage } from "@/redux/reducer/ContactListReducer";
-import { useAppDispatch } from "@/redux/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 
 export default function SidebarHeader() {
   const dispatch = useAppDispatch();
+  const { loginUser } = useAppSelector((state: RootState) => state.contactList);
   const [isLogout, setIsLogout] = useState(true);
   const { data, isSuccess } = useLogOutQuery(null, { skip: isLogout });
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function SidebarHeader() {
   return (
     <div className="h-16 px-4 py-3 flex justify-between items-center">
       <div className="cursor-pointer">
-        <Avatar src="/imgs/me.jpg" />
+        {loginUser && <Avatar src={loginUser?.avatar} />}
       </div>
       <div className="flex gap-6">
         <Tooltip text="All Contacts">

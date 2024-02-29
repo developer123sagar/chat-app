@@ -9,6 +9,7 @@ cloudinary.config({
 export const uploadImage = async (file: File, folder: string) => {
   const buffer = await file.arrayBuffer()
   const bytes = Buffer.from(buffer)
+  console.log(buffer)
 
   return new Promise(async (resolve, reject) => {
     cloudinary.uploader.upload_stream({

@@ -7,6 +7,7 @@ import { messageAPI } from './api/MessageApi';
 import { predictMsgAPI } from './api/PredictMsgAPI';
 import { contactListReducer } from './reducer/ContactListReducer';
 import { MessageReducer } from './reducer/MessageReducer';
+import { profileUpdateApi } from './api/ProfileUpdateApi';
 
 const store = configureStore({
     reducer: {
@@ -14,10 +15,11 @@ const store = configureStore({
         [contactListAPI.reducerPath]: contactListAPI.reducer,
         [messageAPI.reducerPath]: messageAPI.reducer,
         [predictMsgAPI.reducerPath]: predictMsgAPI.reducer,
+        [profileUpdateApi.reducerPath]: profileUpdateApi.reducer,
         [contactListReducer.name]: contactListReducer.reducer,
         [MessageReducer.name]: MessageReducer.reducer,
     },
-    middleware: (mid) => [...mid(), contactListAPI.middleware, authAPI.middleware, messageAPI.middleware, predictMsgAPI.middleware]
+    middleware: (mid) => [...mid(), contactListAPI.middleware, authAPI.middleware, messageAPI.middleware, predictMsgAPI.middleware, profileUpdateApi.middleware]
 });
 
 export default store;

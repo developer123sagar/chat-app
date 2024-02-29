@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getTokenData } from "@/helper/backend/getTokenData";
 import { cookies } from "next/headers";
-import { connect } from "@/config/mongo.config";
-import { uploadImage } from "@/utils/cloudinary";
+import { NextRequest, NextResponse } from "next/server";
+
 import Message from "@/model/messageModel";
 import User from "@/model/userModel";
+import { connect } from "@/config/mongo.config";
+import { getTokenData } from "@/helper/backend/getTokenData";
+import { uploadImage } from "@/utils/cloudinary";
 
 connect()
 
@@ -25,14 +26,14 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "no image found", success: false }, { status: 401 });
         }
         const sender = await User.findOne({ _id: userId });
-        const data: any = await uploadImage(image, `image/${sender.username}`)
-
+        
         if (!receiverId) {
             return NextResponse.json({ error: "Reciever is not found", success: false }, { status: 404 })
         }
 
+        const data: any = await uploadImage(image, `image/${sender.username}`)
+        
         if (userId != receiverId) {
-
             const newMessage = new Message({
                 senderId: userId,
                 receiverId: receiverId,
@@ -50,7 +51,6 @@ export async function POST(req: NextRequest) {
                 },
             });
         }
-
         return NextResponse.json({ message: "Incomplete data" }, { status: 400 });
 
     } catch (err: any) {

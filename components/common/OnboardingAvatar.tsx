@@ -7,7 +7,7 @@ import ContextMenu from "./ContextMenu";
 import PhotoPicker from "./PhotoPicker";
 import CapturePhoto from "./CapturePhoto";
 
-function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
+function OnAvatar({ type, image, setImage, setForm }: OnboardingAvatarProps) {
   const [hover, setHover] = useState(false);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [contextMenuCordinates, setContextMenuCordinates] = useState({
@@ -63,6 +63,10 @@ function OnAvatar({ type, image, setImage }: OnboardingAvatarProps) {
   const photoPickerChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setForm((prevForm: any) => ({
+        ...prevForm,
+        avatar: file,
+      }));
       const reader = new FileReader();
       const data = document.createElement("img");
 

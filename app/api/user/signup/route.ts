@@ -4,7 +4,6 @@ import { connect } from "@/config/mongo.config";
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/helper/backend/mailer";
 
-// connecting to mongo db
 connect()
 
 export async function POST(request: NextRequest) {
@@ -18,6 +17,7 @@ export async function POST(request: NextRequest) {
 
         // check if user already exists
         const user = await User.findOne({ email })
+        console.log(user,"user")
         if (user) {
             if (user.verifyTokenExpiry < Date.now()) {
                 user.username = username;

@@ -30,6 +30,15 @@ const userSchema: Schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    displayName: {
+        type: String,
+        default:"",
+    },
+    gender: {
+        type: String,
+        enum: ["Male", "Female", "Other"],
+        default: "Male",
+    },
     role: {
         type: String,
         enum: ["USER", "ADMIN"],
