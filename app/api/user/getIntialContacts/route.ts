@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-import User from "@/model/userModel";
+// import User from "@/model/userModel";
 import { connect } from "@/config/mongo.config";
 import { getTokenData } from "@/helper/backend/getTokenData";
 
