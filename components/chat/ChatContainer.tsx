@@ -1,9 +1,11 @@
 "use client";
 
+import toast from "react-hot-toast";
 import { useEffect, useRef } from "react";
 
-import Spinner from "@/components/Spinner";
+import ImageMessage from "@/components/chat/ImageMessage";
 import MessageStatusComp from "@/components/chat/MessageStatusComp";
+import Spinner from "@/components/Spinner";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useGetMessagesQuery } from "@/redux/api/MessageApi";
 import { calculateTime } from "@/helper/CalculateTime";
@@ -12,7 +14,6 @@ import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_GET_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
-import ImageMessage from "./ImageMessage";
 
 const ChatContainer = () => {
   const chatRef = useRef<HTMLDivElement>(null);
@@ -28,9 +29,24 @@ const ChatContainer = () => {
     data: msg,
     isLoading,
     isSuccess,
+    isError,
+    error,
   } = useGetMessagesQuery(currentChatUser?._id);
 
   const dispatch = useAppDispatch();
+
+  if (isError) {
+    if ("status" in error) {
+      let errMsg: any = "error" in error ? error.error : error.data;
+      console.log(error.status);
+      if (error.status === 401) {
+        toast.error(errMsg.message);
+        window.location.reload();
+      }
+    } else {
+      toast.error("something went wrong");
+    }
+  }
 
   useEffect(() => {
     socket.on(SOCKET_GET_MESSAGE, (data: MessageType) => {

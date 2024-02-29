@@ -9,11 +9,20 @@ import { setContactPage } from "@/redux/reducer/ContactListReducer";
 const ContactList = () => {
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, isSuccess, isError } = useGetContactListQuery();
+  const { data, isLoading, isSuccess, isError, error } =
+    useGetContactListQuery();
 
   if (isError) {
-    toast.error("Unauthorized access");
-    window.location.reload();
+    if ("status" in error) {
+      let errMsg: any = "error" in error ? error.error : error.data;
+      console.log(error.status);
+      if (error.status === 401) {
+        toast.error(errMsg.message);
+        window.location.reload();
+      }
+    } else {
+      toast.error("something went wrong");
+    }
   }
 
   return (
