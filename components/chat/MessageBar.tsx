@@ -8,7 +8,6 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
-import { FaMicrophone } from "react-icons/fa";
 
 import PhotoPicker from "@/components/common/PhotoPicker";
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,6 @@ const MessageBar = () => {
     to: "",
   });
   const [grabPhoto, setGrabPhoto] = useState(false);
-  const [showAudioRecorder, setShowAudioRecorder] = useState(false);
 
   // redux state
   const { currentChatUser, loginUser, onlineUsers } = useAppSelector(
@@ -141,63 +139,47 @@ const MessageBar = () => {
     <>
       {currentChatUser && (
         <ul className="h-20 relative px-4 flex items-center gap-6 bg-gray-800">
-          {!showAudioRecorder && (
-            <>
-              <li className="flex gap-6 z-[9999] bg-opacity-95 opacity-95">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <BsEmojiSmile
-                      title="Emoji"
-                      className="text-gray-200 cursor-pointer text-xl"
-                    />
-                  </DropdownMenuTrigger>
-
-                  <DropdownMenuContent className="relative left-[9.5rem] bottom-8">
-                    <EmojiPicker
-                      theme={Theme.DARK}
-                      emojiStyle={EmojiStyle.FACEBOOK}
-                      suggestedEmojisMode={SuggestionMode.FREQUENT}
-                      onEmojiClick={handleEmojiClick}
-                    />
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <ImAttachment
+          <li className="flex gap-6 z-[9999] bg-opacity-95 opacity-95">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <BsEmojiSmile
+                  title="Emoji"
                   className="text-gray-200 cursor-pointer text-xl"
-                  title="Attach File"
-                  onClick={() => setGrabPhoto(true)}
                 />
-              </li>
-              <li className="w-full rounded-lg h-10 flex gap-10 items-center">
-                <input
-                  type="text"
-                  placeholder="Type a message"
-                  className="bg-gray-600 text-sm focus:outline-none text-white placeholder:text-white h-10 rounded px-5 py-4 w-full"
-                  value={form.message}
-                  onChange={(e) =>
-                    setForm({ ...form, message: e.target.value })
-                  }
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="relative left-[9.5rem] bottom-8">
+                <EmojiPicker
+                  theme={Theme.DARK}
+                  emojiStyle={EmojiStyle.FACEBOOK}
+                  suggestedEmojisMode={SuggestionMode.FREQUENT}
+                  onEmojiClick={handleEmojiClick}
                 />
-                <div className="flex-center">
-                  {form.message.length > 0 ? (
-                    <Button onClick={handleMessageSubmit}>
-                      <MdSend
-                        className="text-gray-200 cursor-pointer text-xl"
-                        title="Send message"
-                      />
-                    </Button>
-                  ) : (
-                    <Button onClick={() => setShowAudioRecorder(true)}>
-                      <FaMicrophone
-                        className="text-gray-200 cursor-pointer text-xl"
-                        title="Record"
-                      />
-                    </Button>
-                  )}
-                </div>
-              </li>
-            </>
-          )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <ImAttachment
+              className="text-gray-200 cursor-pointer text-xl"
+              title="Attach File"
+              onClick={() => setGrabPhoto(true)}
+            />
+          </li>
+          <form className="w-full rounded-lg h-10 flex gap-10 items-center">
+            <input
+              type="text"
+              placeholder="Type a message"
+              className="bg-gray-600 text-sm focus:outline-none text-white placeholder:text-white h-10 rounded px-5 py-4 w-full"
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+            />
+
+            <Button type="submit" onClick={handleMessageSubmit}>
+              <MdSend
+                className="text-gray-200 cursor-pointer text-xl"
+                title="Send message"
+              />
+            </Button>
+          </form>
         </ul>
       )}
       {grabPhoto && <PhotoPicker onChange={photoPickerChange} />}
