@@ -138,7 +138,7 @@ const MessageBar = () => {
   return (
     <>
       {currentChatUser && (
-        <ul className="h-20 relative px-4 flex items-center gap-6 bg-gray-800">
+        <ul className="h-[10vh] relative px-4 flex items-center gap-6 bg-gray-800">
           <li className="flex gap-6 z-[9999] bg-opacity-95 opacity-95">
             <DropdownMenu>
               <DropdownMenuTrigger>

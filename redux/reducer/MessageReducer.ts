@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: MessageState = {
     messages: [],
     isGettingMsg: true,
+    isMessageSearch: false,
 }
 
 export const MessageReducer = createSlice({
@@ -19,7 +20,10 @@ export const MessageReducer = createSlice({
         addMessage: (state, action) => {
             state.messages = Array.isArray(state.messages) ? [...state.messages, action.payload] : [action.payload];
         },
+        setMessageSearch: (state) => {
+            state.isMessageSearch = !state.isMessageSearch
+        }
     }
 })
 
-export const { setMessage, changeGettingMsg, addMessage } = MessageReducer.actions
+export const { setMessage, changeGettingMsg, addMessage, setMessageSearch } = MessageReducer.actions

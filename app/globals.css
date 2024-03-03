@@ -93,6 +93,9 @@ body::-webkit-scrollbar {
   .flex-between {
     @apply flex items-center justify-between;
   }
+  .flex-col-center{
+    @apply flex items-center flex-col
+  }
 }
 
 .h {

@@ -61,6 +61,7 @@ export type MessageType = {
 export type MessageState = {
     messages: MessageType[],
     isGettingMsg: boolean,
+    isMessageSearch: boolean,
 }
 
 export type NextApiResponseServerIo = NextApiResponse & {
