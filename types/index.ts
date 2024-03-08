@@ -64,6 +64,7 @@ export type MessageState = {
     messages: MessageType[],
     isGettingMsg: boolean,
     isMessageSearch: boolean,
+    isCurrentUserProfileView: boolean,
 }
 
 export type NextApiResponseServerIo = NextApiResponse & {

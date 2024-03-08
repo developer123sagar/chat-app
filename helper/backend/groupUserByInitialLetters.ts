@@ -1,7 +1,7 @@
 export function groupUsersByInitialLetters(users: any[]) {
     const groupedUsers: { [initialLetter: string]: any[] } = {};
 
-    users.forEach((user: { username: string; _id: string; email: string; avatar: string; about: string; }) => {
+    users.forEach((user: { username: string; _id: string; email: string; avatar: string; about: string; displayName: string; }) => {
         const initialLetter = user.username.charAt(0).toUpperCase();
 
         if (!groupedUsers[initialLetter]) {
@@ -13,7 +13,8 @@ export function groupUsersByInitialLetters(users: any[]) {
             email: user.email,
             username: user.username,
             avatar: user.avatar,
-            about: user.about
+            about: user.about,
+            displayName: user.displayName,
         });
     });
     return groupedUsers;

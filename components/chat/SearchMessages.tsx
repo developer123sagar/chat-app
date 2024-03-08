@@ -38,7 +38,7 @@ const SearchMessages = () => {
           title="Close"
           size={30}
           color="white"
-          onClick={() => dispatch(setMessageSearch())}
+          onClick={() => dispatch(setMessageSearch(false))}
         />
         <span className="text-white">Search Messages</span>
       </div>

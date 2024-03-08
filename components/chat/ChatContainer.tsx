@@ -70,7 +70,7 @@ const ChatContainer = () => {
     <div className="h-[80vh] py-3 px-4 w-full flex-grow overflow-auto custom-scrollbar relative">
       <div className="flex w-full">
         <div
-          className="flex flex-col justify-end w-full gap-1 overflow-auto z-50"
+          className="flex flex-col justify-end w-full gap-1 overflow-auto z-0"
           ref={chatRef}
         >
           {isLoading && <Spinner btn />}

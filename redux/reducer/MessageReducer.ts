@@ -5,6 +5,7 @@ const initialState: MessageState = {
     messages: [],
     isGettingMsg: true,
     isMessageSearch: false,
+    isCurrentUserProfileView: false,
 }
 
 export const MessageReducer = createSlice({
@@ -20,10 +21,13 @@ export const MessageReducer = createSlice({
         addMessage: (state, action) => {
             state.messages = Array.isArray(state.messages) ? [...state.messages, action.payload] : [action.payload];
         },
-        setMessageSearch: (state) => {
-            state.isMessageSearch = !state.isMessageSearch
+        setMessageSearch: (state, action) => {
+            state.isMessageSearch = action.payload
+        },
+        setCurrentUserProfileView: (state, action) => {
+            state.isCurrentUserProfileView = action.payload
         }
     }
 })
 
-export const { setMessage, changeGettingMsg, addMessage, setMessageSearch } = MessageReducer.actions
+export const { setMessage, changeGettingMsg, addMessage, setMessageSearch, setCurrentUserProfileView } = MessageReducer.actions
