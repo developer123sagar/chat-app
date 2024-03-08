@@ -1,11 +1,7 @@
 import User from '@/model/userModel';
 import nodemailer from 'nodemailer';
 import { generateUniqueRandomString } from '@/helper/generateString';
-
-interface ISendMail {
-    email: string,
-    emailType: "USER_VERIFICATION_EMAIL" | "FORGOT_PASSWORD",
-}
+import { ISendMail } from '@/types';
 
 const email = process.env.EMAIL || ""
 const pass = process.env.EMAIL_PASS || "";

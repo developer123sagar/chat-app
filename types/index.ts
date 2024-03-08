@@ -10,10 +10,12 @@ export type ContactListUser = {
     username: string;
     email: string;
     isVerified: boolean;
+    isProfileUpdated: boolean;
     role: "USER" | "ADMIN";
     token: string;
     avatar: string;
     about: string;
+    displayName: string;
 }
 
 export interface IAuthState {
@@ -44,7 +46,7 @@ export type ChatListItemProps = {
     data: ContactListUser;
 };
 export type MessageStatus = "SENT" | "DELIVERED" | "SEEN"
-export type MsgType = "image" | "text" | "voice"
+export type MsgType = "image" | "text"
 
 export type MessageType = {
     _id?: string;
@@ -116,4 +118,15 @@ export type Emoji = {
 export type PredictMsg = {
     prediction: string;
     status: number;
+}
+
+export interface ISendMail {
+    email: string,
+    emailType: "USER_VERIFICATION_EMAIL" | "FORGOT_PASSWORD",
+}
+
+export interface AuthFormProps {
+    variant: "SIGNIN" | "SIGNUP";
+    title: string;
+    api: string;
 }

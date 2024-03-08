@@ -29,6 +29,7 @@ export const contactListReducer = createSlice({
             state.skipUserInfo = action.payload
         },
         setUser: (state, action) => {
+            console.log(action.payload)
             state.loginUser = action.payload
         },
         setOnlineUsers: (state, action) => {

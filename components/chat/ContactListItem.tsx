@@ -11,9 +11,7 @@ const ContactListItem = ({ data }: ChatListItemProps) => {
     (state: RootState) => state.contactList
   );
 
-  const isOnline = onlineUsers?.some(
-    (user) => user.userId === data?._id
-  );
+  const isOnline = onlineUsers?.some((user) => user.userId === data?._id);
 
   return (
     <div
@@ -28,7 +26,7 @@ const ContactListItem = ({ data }: ChatListItemProps) => {
       }}
     >
       <div className="min-w-fit px-5 pt-3 pb-1 relative">
-        <Avatar src="https://github.com/shadcn.png" />
+        <Avatar src={data?.avatar} />
         <span
           className={`inline-block w-2 h-2 rounded-full absolute top-3 right-5 ${
             isOnline ? "bg-emerald-500" : "bg-gray-400"
@@ -45,8 +43,8 @@ const ContactListItem = ({ data }: ChatListItemProps) => {
         </div>
         <div className="flex pb-2 pt-1">
           <div className="flex justify-between w-full">
-            <span className="text-gray-600 line-clamp-1 text-sm">
-              Hey there! I am using Jiffychat.
+            <span className="text-gray-400 line-clamp-1 text-sm">
+              {data?.about}
             </span>
           </div>
         </div>

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
+
 import { OnboardingAvatarProps } from "@/types";
 import ContextMenu from "./ContextMenu";
 import PhotoPicker from "./PhotoPicker";
@@ -18,7 +19,7 @@ function OnAvatar({ type, image, setImage, setForm }: OnboardingAvatarProps) {
   const [grabPhoto, setGrabPhoto] = useState(false);
   const [showCapturePhoto, setShowCapturePhoto] = useState(false);
 
-  const showContextMenu = (e: React.MouseEvent<HTMLElement>) => {
+  const showContextMenu = (e: React.MouseEvent<any>) => {
     e.preventDefault();
     setContextMenuCordinates({ x: e.pageX, y: e.pageY });
     setIsContextMenuVisible(true);

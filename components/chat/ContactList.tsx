@@ -15,7 +15,6 @@ const ContactList = () => {
   if (isError) {
     if ("status" in error) {
       let errMsg: any = "error" in error ? error.error : error.data;
-      console.log(error.status);
       if (error.status === 401) {
         toast.error(errMsg.message);
         window.location.reload();

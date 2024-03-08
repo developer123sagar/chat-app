@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
 
         // check if user already exists
         const user = await User.findOne({ email })
-        console.log(user,"user")
         if (user) {
             if (user.verifyTokenExpiry < Date.now()) {
                 user.username = username;
@@ -34,7 +33,6 @@ export async function POST(request: NextRequest) {
             username,
             email,
             password: hashedPassword,
-            token: "",
         })
         await newUser.save()
 

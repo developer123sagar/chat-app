@@ -5,7 +5,7 @@ import { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  id: string;
+  id?: string;
   type?: string;
   required?: boolean;
   disabled?: boolean;

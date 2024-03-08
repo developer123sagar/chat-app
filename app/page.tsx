@@ -18,25 +18,25 @@ export default function HomePage() {
   const dispatch = useAppDispatch();
   const { socket } = useSocket();
 
-  const { skipUserInfo } = useAppSelector(
+  const { skipUserInfo, loginUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
 
-  const {
-    isLoading,
-    data: user,
-    isError,
-  } = useGetUserInfoQuery(null, { skip: skipUserInfo });
+  const { isLoading, data: user } = useGetUserInfoQuery(null, {
+    skip: skipUserInfo,
+  });
 
   useEffect(() => {
     if (user && socket) {
-      dispatch(setUser(user));
+      if (!loginUser) {
+        dispatch(setUser(user));
+      }
       socket.emit(SOCKET_ADD_USER, user._id);
       socket.on(SOCKET_GET_USER, (users: OnlineUsers[]) => {
         dispatch(setOnlineUsers(users));
       });
     }
-  }, [dispatch, socket, user]);
+  }, [dispatch, socket, user, loginUser]);
 
   if (isLoading) {
     return (
@@ -48,14 +48,11 @@ export default function HomePage() {
 
   return (
     <>
-      {(!user?.isVerified && isLoading) ||
-      user === null ||
-      isError ||
-      skipUserInfo ? (
+      {!user || isLoading ? (
         <AuthForm
           api={POST_SIGNIN}
           variant="SIGNIN"
-          title=" Login to your account"
+          title="Login to your account"
         />
       ) : (
         <MainPage />

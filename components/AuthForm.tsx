@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -8,8 +7,9 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Input from "@/components/custom/Input";
-import SocialButton from "@/components/custom/SocialButton";
 import Logo from "@/components/custom/Logo";
+import SocialButton from "@/components/custom/SocialButton";
+import { AuthFormProps } from "@/types";
 import { Button } from "@/components/ui/button";
 import { google } from "@/common/icons";
 import {
@@ -18,12 +18,11 @@ import {
 } from "@/redux/api/AuthApi";
 import { useAppDispatch } from "@/redux/store";
 import { changeSkipUserInfo } from "@/redux/reducer/ContactListReducer";
-
-interface AuthFormProps {
-  variant: "SIGNIN" | "SIGNUP";
-  title: string;
-  api: string;
-}
+import {
+  getPasswordValidationMessage,
+  validatePassword,
+  validateUsername,
+} from "@/validation";
 
 const AuthForm = ({ variant, title, api }: AuthFormProps) => {
   const [form, setForm] = useState({
@@ -41,11 +40,23 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
 
   const handleFormSubmit = async (e?: FormEvent) => {
     e?.preventDefault();
+    if (variant === "SIGNUP") {
+      if (!validateUsername(form.username as string)) {
+        toast.error("Username must contain only alphabet characters");
+        return;
+      }
+      if (!validatePassword(form.password)) {
+        const message = getPasswordValidationMessage(form.password.trim());
+        toast.error(message);
+        return;
+      }
+    }
     try {
       const res: any = await postAuthForm({ form, api }).unwrap();
       toast.success(res.message);
       if (res.success && variant === "SIGNIN") {
         setChangeSkip(false);
+        dispatch(changeSkipUserInfo(false));
       }
       if (variant === "SIGNUP") {
         dispatch(changeSkipUserInfo(true));
@@ -69,8 +80,8 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
           <form onSubmit={handleFormSubmit} className="space-y-6">
             {variant === "SIGNUP" && (
               <Input
-                label="Username"
                 id="username"
+                label="Username"
                 type="text"
                 required
                 value={form.username}
@@ -78,18 +89,18 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
               />
             )}
             <Input
-              label="Email"
               id="email"
+              label="Email"
               type="email"
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
             <Input
+              id="pass"
               label="Password"
               type="password"
               required
-              id="password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />

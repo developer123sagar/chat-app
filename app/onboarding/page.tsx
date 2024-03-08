@@ -1,42 +1,75 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import Avatar from "@/components/common/OnboardingAvatar";
 import Input from "@/components/custom/Input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Logo from "@/components/custom/Logo";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { useUpdateProfileMutation } from "@/redux/api/ProfileUpdateApi";
 import Spinner from "@/components/Spinner";
+import { Button } from "@/components/ui/button";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import { setUser } from "@/redux/reducer/ContactListReducer";
+import { useUpdateProfileMutation } from "@/redux/api/ProfileUpdateApi";
 
+type onboardingForm = {
+  avatar: string | null;
+  about: string | null;
+  displayName: string | null;
+};
 const Onboarding = () => {
   const [image, setImage] = useState("/imgs/avatar.png");
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
-  const [form, setForm] = useState({
-    avatar: "",
+  const [form, setForm] = useState<onboardingForm>({
+    avatar: null,
     about: "",
     displayName: "",
-    gender: "Male",
   });
 
-  console.log(form);
+  const { loginUser } = useAppSelector(
+    (state: RootState) => state.contactList
+  );
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (loginUser) {
+      setForm({
+        avatar: "",
+        about: (loginUser?.isProfileUpdated && loginUser.about) || "",
+        displayName: loginUser.displayName || "",
+      });
+      setImage(loginUser?.avatar);
+    }
+  }, [loginUser]);
 
   const handleUpdateProfile = async () => {
     const formData = new FormData();
-    formData.append("displayName", form.displayName);
-    formData.append("avatar", form.avatar);
-    formData.append("gender", form.displayName);
-    formData.append("about", form.about);
+    if (form.displayName) {
+      formData.append("displayName", form.displayName);
+    }
+    if (form.avatar) {
+      formData.append("avatar", form.avatar);
+    }
+    if (form.about) {
+      formData.append("about", form.about);
+    }
+
     try {
       const res = await updateProfile(formData).unwrap();
       console.log(res);
+      if (res.success === true) {
+        dispatch(
+          setUser({
+            ...loginUser,
+            displayName: res.data.displayName || loginUser?.displayName,
+            about: res.data.about || loginUser?.about,
+            avatar: res.data.avatar || loginUser?.avatar,
+          })
+        );
+        router.push("/");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +96,7 @@ const Onboarding = () => {
             id="name"
             labelClass="text-white"
             className="py-3"
+            value={form.displayName as string}
             onChange={(e) => setForm({ ...form, displayName: e.target.value })}
           />
           <Input
@@ -70,10 +104,17 @@ const Onboarding = () => {
             id="about"
             labelClass="text-white"
             className="py-3"
+            value={form.about as string}
             onChange={(e) => setForm({ ...form, about: e.target.value })}
           />
           <Button className="py-3" onClick={handleUpdateProfile}>
-            {isLoading ? <Spinner btn /> : "Create Profile"}
+            {isLoading ? (
+              <Spinner btn />
+            ) : loginUser?.isProfileUpdated ? (
+              "Update Profile"
+            ) : (
+              "Create Profile"
+            )}
           </Button>
         </div>
         <div>
@@ -83,16 +124,6 @@ const Onboarding = () => {
             setImage={setImage}
             setForm={setForm}
           />
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
-              <SelectItem value="others">Others</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </div>
     </div>

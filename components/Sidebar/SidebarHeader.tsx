@@ -32,10 +32,16 @@ export default function SidebarHeader() {
     window.location.reload();
   }
 
+  console.log(loginUser)
+  
   return (
     <div className="h-16 px-4 py-3 flex justify-between items-center">
       <div className="cursor-pointer">
-        {loginUser && <Avatar src={loginUser?.avatar} />}
+        {loginUser && (
+          <Tooltip text={loginUser?.username}>
+            <Avatar src={loginUser?.avatar} />
+          </Tooltip>
+        )}
       </div>
       <div className="flex gap-6">
         <Tooltip text="All Contacts">
@@ -68,9 +74,6 @@ export default function SidebarHeader() {
               className="cursor-pointer hover:bg-gray-700"
             >
               Onboarding
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer hover:bg-gray-700">
-              Settings
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => setIsLogout(false)}
