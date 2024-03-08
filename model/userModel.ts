@@ -45,7 +45,7 @@ const userSchema: Schema = new mongoose.Schema({
     },
     token: {
         type: String,
-        default: "",
+        default:"", 
     },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,

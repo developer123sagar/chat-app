@@ -8,10 +8,8 @@ import { useRouter } from "next/navigation";
 
 import Input from "@/components/custom/Input";
 import Logo from "@/components/custom/Logo";
-import SocialButton from "@/components/custom/SocialButton";
 import { AuthFormProps } from "@/types";
 import { Button } from "@/components/ui/button";
-import { google } from "@/common/icons";
 import {
   useAuthFormSubmitMutation,
   useGetUserInfoQuery,
@@ -117,21 +115,6 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
                 "Signup"
               )}
             </Button>
-            {variant === "SIGNIN" && (
-              <>
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300" />
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="bg-white px-2 text-gray-500">
-                      Or continue with
-                    </span>
-                  </div>
-                </div>
-                <SocialButton icon={google} />
-              </>
-            )}
             <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
               <h2>
                 {variant === "SIGNIN"

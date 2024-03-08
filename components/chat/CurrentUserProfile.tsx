@@ -35,7 +35,7 @@ const CurrentUserProfile = () => {
             width={210}
             height={210}
             priority
-            className="rounded-full p-1 mx-auto"
+            className="rounded-full p-1 mx-auto w-[200px] h-[200px]"
           />
           <h1 className="mx-auto w-fit text-white text-lg">
             {capitalizeFirstLetter(currentChatUser?.username as string)}
