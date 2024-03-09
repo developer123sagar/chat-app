@@ -8,16 +8,21 @@ import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { useSendForgotPassMailMutation } from "@/redux/api/AuthApi";
 import Logo from "@/components/custom/Logo";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPassPage() {
   const [sendForgotMail, { isLoading }] = useSendForgotPassMailMutation();
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const res = await sendForgotMail(email).unwrap();
       toast.success(res.message);
+      if (res.success === true) {
+        router.push("/");
+      }
     } catch (err: any) {
       toast.error(err.error || "Something went wrong!");
     }
