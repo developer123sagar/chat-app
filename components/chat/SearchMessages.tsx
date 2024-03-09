@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { BiSearchAlt2 } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { VscClose } from "react-icons/vsc";
