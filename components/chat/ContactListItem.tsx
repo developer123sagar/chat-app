@@ -13,8 +13,6 @@ const ContactListItem = ({ data }: ChatListItemProps) => {
 
   const isOnline = onlineUsers?.some((user) => user.userId === data?._id);
 
-  console.log(data)
-
   return (
     <div
       className={`flex cursor-pointer border-gray-900 border-y ${
@@ -39,7 +37,7 @@ const ContactListItem = ({ data }: ChatListItemProps) => {
         <div className="flex justify-between">
           <div>
             <strong className="text-white first-letter:uppercase">
-              {capitalizeFirstLetter(data?.displayName || data?.username)}
+              {capitalizeFirstLetter(data?.username)}
             </strong>
           </div>
         </div>

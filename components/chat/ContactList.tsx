@@ -1,6 +1,8 @@
+import toast from "react-hot-toast";
+import { useState } from "react";
+
 import ContactListItem from "@/components/chat/ContactListItem";
 import Spinner from "@/components/Spinner";
-import toast from "react-hot-toast";
 import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
 import { useAppDispatch } from "@/redux/store";
 import { useGetContactListQuery } from "@/redux/api/ContactListApi";
@@ -8,6 +10,7 @@ import { setContactPage } from "@/redux/reducer/ContactListReducer";
 
 const ContactList = () => {
   const dispatch = useAppDispatch();
+  const [searchInput, setSearchInput] = useState("");
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetContactListQuery();
@@ -24,7 +27,16 @@ const ContactList = () => {
     }
   }
 
-  console.log(data);
+  const filteredContactData = isSuccess
+    ? Object.fromEntries(
+        Object.entries(data).map(([initialLetter, contact]) => [
+          initialLetter,
+          contact.filter((user) =>
+            user.username.toLowerCase().includes(searchInput.toLowerCase())
+          ),
+        ])
+      )
+    : {};
 
   return (
     <>
@@ -46,6 +58,8 @@ const ContactList = () => {
                 type="text"
                 placeholder="Search contacts"
                 className="bg-transparent text-sm w-full py-2 focus:outline-none text-white"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
             </li>
           </div>
@@ -60,15 +74,20 @@ const ContactList = () => {
         ) : (
           <div className="h-full w-full overflow-y-scroll custom-scrollbar">
             {isSuccess &&
-              data &&
-              Object.entries(data).map(([initialLetter, contact]) => (
-                <ul key={Date.now().toString() + initialLetter}>
-                  <li className="text-teal-400 pl-10 py-6">{initialLetter}</li>
-                  {contact.map((user) => (
-                    <ContactListItem data={user} key={user._id} />
-                  ))}
-                </ul>
-              ))}
+              Object.entries(filteredContactData).map(
+                ([initialLetter, contact]) => (
+                  <ul key={Date.now().toString() + initialLetter}>
+                    {contact.length > 0 && (
+                      <li className="text-teal-400 pl-10 py-6">
+                        {initialLetter}
+                      </li>
+                    )}
+                    {contact.map((user) => (
+                      <ContactListItem data={user} key={user._id} />
+                    ))}
+                  </ul>
+                )
+              )}
           </div>
         )}
       </div>
