@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { GET_MESSAGE, SEND_IMAGE, SEND_MESSAGE } from "@/constants";
+import { DELETE_MESSAGE, GET_MESSAGE, SEND_IMAGE, SEND_MESSAGE } from "@/constants";
 import { MessageType } from "@/types";
 
 export const messageAPI = createApi({
@@ -8,7 +8,6 @@ export const messageAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.DOMAIN_LOCALHOST_URL,
     }),
-    tagTypes: ["message"],
     endpoints: (builder) => ({
         getMessages: builder.query<MessageType[], any>({
             query: (to) => ({ url: `${GET_MESSAGE}/${to}` }),
@@ -30,8 +29,14 @@ export const messageAPI = createApi({
                 body: formData,
             }),
             transformResponse: (res: any) => res.data
+        }),
+        deleteMessage: builder.mutation<any, any>({
+            query: (id: string) => ({
+                url: `${DELETE_MESSAGE}/${id}`,
+                method: "DELETE",
+            }),
         })
     })
 })
 
-export const { useGetMessagesQuery, useSendMessageMutation, useSendImageMutation } = messageAPI
+export const { useGetMessagesQuery, useSendMessageMutation, useSendImageMutation, useDeleteMessageMutation } = messageAPI

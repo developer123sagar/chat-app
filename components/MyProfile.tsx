@@ -45,7 +45,7 @@ const MyProfile = () => {
           )}
           <p className="text-gray-400 text-[14px] my-5">
             This is not your username or pin. This name will be visible to your
-            WhatsApp contacts
+            Jiffychat contacts
           </p>
         </div>
         <div className="py-5 px-4 border-b border-gray-700">

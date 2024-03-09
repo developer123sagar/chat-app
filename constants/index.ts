@@ -18,6 +18,7 @@ export const UPDATE_PROFILE = `${AUTH_ROUTE}/profile`;
 export const SEND_MESSAGE = `${MSG_ROUTE}/send-message`;
 export const GET_MESSAGE = `${MSG_ROUTE}/get-message`;
 export const SEND_IMAGE = `${MSG_ROUTE}/image/upload`;
+export const DELETE_MESSAGE = `${MSG_ROUTE}/delete-message`;
 
 // form ml predict part
 export const PREDICT_MSG = "predict";

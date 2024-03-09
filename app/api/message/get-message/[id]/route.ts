@@ -10,7 +10,6 @@ connect()
 export async function GET(req: NextRequest) {
     try {
         const userId = await getTokenData(req);
-
         const { pathname } = new URL(req.url);
         const to = pathname.split('/').pop();
 
@@ -52,3 +51,4 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: err.message }, { status: 400 })
     }
 }
+

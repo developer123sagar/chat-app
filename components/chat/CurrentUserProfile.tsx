@@ -3,15 +3,32 @@ import { VscClose } from "react-icons/vsc";
 import { FaTrashCan } from "react-icons/fa6";
 
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { setCurrentUserProfileView } from "@/redux/reducer/MessageReducer";
+import {
+  setCurrentUserProfileView,
+  setMessage,
+} from "@/redux/reducer/MessageReducer";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
 import { formatDate } from "@/helper/FormatDate";
+import toast from "react-hot-toast";
+import { useDeleteMessageMutation } from "@/redux/api/MessageApi";
 
 const CurrentUserProfile = () => {
   const dispatch = useAppDispatch();
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
+
+  const [deleteMsg] = useDeleteMessageMutation();
+
+  const deleteAllChat = async () => {
+    try {
+      const res = await deleteMsg(currentChatUser?._id).unwrap();
+      toast.success(res.message);
+      dispatch(setMessage([]));
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <div className="border-gray-400 border-l w-full bg-slate-900 flex flex-col z-10 h-screen">
@@ -57,7 +74,10 @@ const CurrentUserProfile = () => {
           </p>
         </div>
 
-        <div className="bg-gray-800 py-4 my-1 px-4 flex gap-2 items-center cursor-pointer hover:bg-gray-600 transition duration-700">
+        <div
+          onClick={deleteAllChat}
+          className="bg-gray-800 py-4 my-1 px-4 flex gap-2 items-center cursor-pointer hover:bg-gray-600 transition duration-700"
+        >
           <FaTrashCan color="red" size={20} />
           <h3 className="text-gray-400">Delete Chat</h3>
         </div>
