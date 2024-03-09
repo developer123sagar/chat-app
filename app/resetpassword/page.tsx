@@ -67,7 +67,7 @@ export default function ResetPasswordPage() {
       <div className="h-screen w-screen flex-center flex-col gap-4">
         <Logo />
         <div className="w-[400px] py-4 px-5 rounded shadow-lg shadow-blue-100 border border-gray-300">
-          <h1 className="text-lg font-bold my-1">Reset Passowrd ?</h1>
+          <h1 className="text-lg font-bold my-1">Reset Password ?</h1>
           <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
             <div className="relative">
               <Input
