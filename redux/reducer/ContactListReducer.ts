@@ -12,6 +12,7 @@ const initialState: ContactListState = {
     skipUserInfo: false,
     loginUser: null,
     onlineUsers: null,
+    showPass: false,
 };
 
 
@@ -37,9 +38,12 @@ export const contactListReducer = createSlice({
         },
         toggleIsProfileview: (state) => {
             state.isProfile = !state.isProfile
+        },
+        toggleShowHidePass: (state) => {
+            state.showPass = !state.showPass
         }
     },
 });
 
 
-export const { setContactPage, changeCurrentUser, changeSkipUserInfo, setUser, setOnlineUsers, toggleIsProfileview } = contactListReducer.actions;
+export const { setContactPage, changeCurrentUser, changeSkipUserInfo, setUser, setOnlineUsers, toggleIsProfileview, toggleShowHidePass } = contactListReducer.actions;

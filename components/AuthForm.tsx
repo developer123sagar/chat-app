@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Spinner from "@/components/Spinner";
 import toast from "react-hot-toast";
+import { FaRegEyeSlash } from "react-icons/fa";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -14,13 +15,17 @@ import {
   useAuthFormSubmitMutation,
   useGetUserInfoQuery,
 } from "@/redux/api/AuthApi";
-import { useAppDispatch } from "@/redux/store";
-import { changeSkipUserInfo } from "@/redux/reducer/ContactListReducer";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import {
+  changeSkipUserInfo,
+  toggleShowHidePass,
+} from "@/redux/reducer/ContactListReducer";
 import {
   getPasswordValidationMessage,
   validatePassword,
   validateUsername,
 } from "@/validation";
+import { FaRegEye } from "react-icons/fa6";
 
 const AuthForm = ({ variant, title, api }: AuthFormProps) => {
   const [form, setForm] = useState({
@@ -29,7 +34,7 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
     ...(variant === "SIGNUP" && { username: "" }),
   });
   const [changeSkip, setChangeSkip] = useState(true);
-
+  const { showPass } = useAppSelector((state: RootState) => state.contactList);
   const [postAuthForm, { isLoading }] = useAuthFormSubmitMutation();
   useGetUserInfoQuery(null, { skip: changeSkip });
 
@@ -94,14 +99,26 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
-            <Input
-              id="pass"
-              label="Password"
-              type="password"
-              required
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
+            <div className="relative">
+              <Input
+                id="pass"
+                label="Password"
+                type={showPass ? "text" : "password"}
+                required
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+              />
+              <p
+                className="absolute right-2 bottom-2.5 cursor-pointer"
+                onClick={() => dispatch(toggleShowHidePass())}
+              >
+                {showPass ? (
+                  <FaRegEyeSlash size={20} className="text-gray-400" />
+                ) : (
+                  <FaRegEye size={20} className="text-gray-400" />
+                )}
+              </p>
+            </div>
             {variant === "SIGNIN" && (
               <div className="my-1">
                 <Link

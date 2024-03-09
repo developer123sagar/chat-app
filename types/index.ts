@@ -34,6 +34,7 @@ export type ContactListState = {
     userInfo: any | null;
     isNewUser: boolean;
     isContactsPage: boolean;
+    showPass: boolean;
     isProfile: boolean;
     currentChatUser: ContactListUser | null;
     skipUserInfo: boolean;
@@ -138,5 +139,4 @@ export interface IAvatarProps {
     src: string;
     name?: string;
     onClick?: () => void;
-  }
-  
+}
