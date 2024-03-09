@@ -72,7 +72,7 @@ export default function ResetPasswordPage() {
             <div className="relative">
               <Input
                 id="pass"
-                label="Password"
+                label="New Password"
                 type={showPass.newpass ? "text" : "password"}
                 required
                 value={form.newPassword}
@@ -96,7 +96,7 @@ export default function ResetPasswordPage() {
             <div className="relative">
               <Input
                 id="pass"
-                label="Password"
+                label="Confirm Password"
                 type={showPass.confirmPass ? "text" : "password"}
                 required
                 value={form.confirmPassword}
@@ -121,7 +121,7 @@ export default function ResetPasswordPage() {
               </p>
             </div>
             <Button disabled={isLoading} type="submit">
-              {isLoading ? <Spinner btn /> : "Chnage Password"}
+              {isLoading ? <Spinner btn /> : "Change Password"}
             </Button>
             <Link href={"/"} className="mt-1 text-center leading-tighter">
               Back to login
