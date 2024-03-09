@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
 
-  const isPublicPath = path === '/signup' || path === '/verifyemail' || path==="/forgotpassword"
+  const isPublicPath = path === '/signup' || path === '/verifyemail' || path === "/forgotpassword" || path === "/resetpassword"
   const isPrivate = path === "/onboarding";
 
   const token = req.cookies.get('token')?.value || ''

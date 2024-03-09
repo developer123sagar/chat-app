@@ -31,6 +31,14 @@ export const authAPI = createApi({
             transformErrorResponse: (err) => err.data
 
         }),
+        resetPassword: builder.mutation<any, any>({
+            query: (form) => ({
+                url: "/api/user/forgotpassword/reset-password",
+                method: "POST",
+                body: form
+            }),
+            transformErrorResponse: (err) => err.data
+        }),
         logOut: builder.query<any, any>({
             query: () => USER_LOG_OUT,
         })
@@ -38,4 +46,4 @@ export const authAPI = createApi({
 });
 
 
-export const { useGetUserInfoQuery, useAuthFormSubmitMutation, useLogOutQuery, useSendForgotPassMailMutation } = authAPI;
+export const { useGetUserInfoQuery, useAuthFormSubmitMutation, useLogOutQuery, useSendForgotPassMailMutation, useResetPasswordMutation } = authAPI;
