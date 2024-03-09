@@ -10,15 +10,17 @@ import Logo from "@/components/custom/Logo";
 import { Button } from "@/components/ui/button";
 import { useResetPasswordMutation } from "@/redux/api/AuthApi";
 import { getPasswordValidationMessage, validatePassword } from "@/validation";
+import { useRouter } from "next/navigation";
 
 export default function ResetPasswordPage() {
   const [token, setToken] = useState("");
-  console.log(token)
+  console.log(token);
 
   const [form, setForm] = useState({
     newPassword: "",
     confirmPassword: "",
   });
+  const router = useRouter();
 
   const [resetPass, { isLoading }] = useResetPasswordMutation();
 
@@ -44,7 +46,10 @@ export default function ResetPasswordPage() {
           token: token,
           newpassword: form.newPassword,
         }).unwrap();
-        console.log(res);
+        toast.success(res.message);
+        if (res.success === true) {
+          router.push("/");
+        }
       } catch (err: any) {
         toast.error(err.error || "Something went wrong!");
       }
