@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import MyProfile from "@/components/MyProfile";
 import ContactList from "@/components/chat/ContactList";
 import SearchBar from "@/components/Sidebar/SearchBar";
-import UserList from "@/components/Sidebar/UserList";
 import SidebarHeader from "@/components/Sidebar/SidebarHeader";
 import { PageType } from "@/types";
 import { RootState, useAppSelector } from "@/redux/store";
@@ -29,7 +28,6 @@ const Sidebar = () => {
           <>
             <SidebarHeader />
             <SearchBar />
-            <UserList />
           </>
         ) : (
           <ContactList />
