@@ -38,8 +38,8 @@ export const sendEmail = async ({ email, emailType }: ISendMail) => {
             from: 'chat.jiffy@gmail.com',
             to: email,
             subject: emailType === "USER_VERIFICATION_EMAIL" ? "Verify your account" : "Reset your password",
-            html: `<p>Click <a href=https://jiffychat.vercel.app/${emailType === "FORGOT_PASSWORD" ? "forgotpassword/newpassword/" : ""}verifyemail?${emailType === "USER_VERIFICATION_EMAIL" ? "token" : "forgotToken"}=${randomString}>here</a> to ${emailType === "USER_VERIFICATION_EMAIL" ? "verify your email" : "reset your password"}
-            or copy and paste the link below in your browser. <br> ${process.env.DOMAIN_URL}/${emailType === "FORGOT_PASSWORD" ? "forgotpassword/newpassword/" : ""}verifyemail?${emailType === "USER_VERIFICATION_EMAIL" ? "token" : "forgotToken"}=${randomString}
+            html: `<p>Click <a href=https://jiffychat.vercel.app/${emailType === "FORGOT_PASSWORD" ? "forgotpassword/resetpassword" : "verifyemail"}?${emailType === "USER_VERIFICATION_EMAIL" ? "token" : "forgotToken"}=${randomString}>here</a> to ${emailType === "USER_VERIFICATION_EMAIL" ? "verify your email" : "reset your password"}
+            or copy and paste the link below in your browser. <br> ${process.env.DOMAIN_URL}/${emailType === "FORGOT_PASSWORD" ? "forgotpassword/resetpassword" : "verifyemail"}?${emailType === "USER_VERIFICATION_EMAIL" ? "token" : "forgotToken"}=${randomString}
             </p>`
         }
 
