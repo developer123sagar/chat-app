@@ -1,13 +1,17 @@
 "use client";
 
+import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdOutlineChat } from "react-icons/md";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import Avatar from "@/components/custom/Avatar";
 import Tooltip from "@/components/custom/Tooltip";
-import toast from "react-hot-toast";
-import { setContactPage } from "@/redux/reducer/ContactListReducer";
+import {
+  setContactPage,
+  toggleIsProfileview,
+} from "@/redux/reducer/ContactListReducer";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import {
   DropdownMenu,
@@ -18,7 +22,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLogOutQuery } from "@/redux/api/AuthApi";
-import { useRouter } from "next/navigation";
 
 export default function SidebarHeader() {
   const dispatch = useAppDispatch();
@@ -32,14 +35,15 @@ export default function SidebarHeader() {
     window.location.reload();
   }
 
-  console.log(loginUser)
-  
   return (
     <div className="h-16 px-4 py-3 flex justify-between items-center">
       <div className="cursor-pointer">
         {loginUser && (
           <Tooltip text={loginUser?.username}>
-            <Avatar src={loginUser?.avatar} />
+            <Avatar
+              src={loginUser?.avatar}
+              onClick={() => dispatch(toggleIsProfileview())}
+            />
           </Tooltip>
         )}
       </div>
@@ -66,7 +70,10 @@ export default function SidebarHeader() {
           <DropdownMenuContent className="bg-gray-900 border-gray-900 text-white w-40">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer hover:bg-gray-700">
+            <DropdownMenuItem
+              onClick={() => dispatch(toggleIsProfileview())}
+              className="cursor-pointer hover:bg-gray-700"
+            >
               My Profile
             </DropdownMenuItem>
             <DropdownMenuItem

@@ -26,7 +26,8 @@ export const MessageReducer = createSlice({
         },
         setCurrentUserProfileView: (state, action) => {
             state.isCurrentUserProfileView = action.payload
-        }
+        },
+
     }
 })
 

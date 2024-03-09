@@ -16,6 +16,7 @@ export type ContactListUser = {
     avatar: string;
     about: string;
     displayName: string;
+    createdAt: Date;
 }
 
 export interface IAuthState {
@@ -33,6 +34,7 @@ export type ContactListState = {
     userInfo: any | null;
     isNewUser: boolean;
     isContactsPage: boolean;
+    isProfile: boolean;
     currentChatUser: ContactListUser | null;
     skipUserInfo: boolean;
     loginUser: ContactListUser | null;
@@ -131,3 +133,10 @@ export interface AuthFormProps {
     title: string;
     api: string;
 }
+
+export interface IAvatarProps {
+    src: string;
+    name?: string;
+    onClick?: () => void;
+  }
+  

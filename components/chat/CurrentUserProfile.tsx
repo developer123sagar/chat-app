@@ -1,19 +1,17 @@
+import Image from "next/image";
 import { VscClose } from "react-icons/vsc";
+import { FaTrashCan } from "react-icons/fa6";
 
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { setCurrentUserProfileView } from "@/redux/reducer/MessageReducer";
-import Image from "next/image";
 import { capitalizeFirstLetter } from "@/helper/capitalizeFirstLetter";
+import { formatDate } from "@/helper/FormatDate";
 
 const CurrentUserProfile = () => {
   const dispatch = useAppDispatch();
   const { currentChatUser } = useAppSelector(
     (state: RootState) => state.contactList
   );
-
-  const { messages } = useAppSelector((state: RootState) => state.messages);
-
-  console.log(messages);
 
   return (
     <div className="border-gray-400 border-l w-full bg-slate-900 flex flex-col z-10 h-screen">
@@ -50,9 +48,19 @@ const CurrentUserProfile = () => {
           <h3 className="text-gray-400">About</h3>
           <p className="text-sky-400">{currentChatUser?.about}</p>
         </div>
-        {
-            
-        }
+        <div className="bg-gray-800 py-3 my-1 px-4">
+          <h3 className="text-gray-400 text-base font-extrabold tracking-tighter">
+            Jiffychat member since
+          </h3>
+          <p className="text-sky-400 text-xs">
+            {formatDate(currentChatUser?.createdAt as Date)}
+          </p>
+        </div>
+
+        <div className="bg-gray-800 py-4 my-1 px-4 flex gap-2 items-center cursor-pointer hover:bg-gray-600 transition duration-700">
+          <FaTrashCan color="red" size={20} />
+          <h3 className="text-gray-400">Delete Chat</h3>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
+import { IAvatarProps } from "@/types";
 import Image from "next/image";
 
-const Avatar = ({ src, name = "Avatar" }: { src: string; name?: string }) => {
+const Avatar = ({ src, name = "Avatar", onClick }: IAvatarProps) => {
   return (
-    <div>
+    <div onClick={onClick}>
       <Image
         src={`${src}`}
         alt={name}
