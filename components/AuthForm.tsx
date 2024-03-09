@@ -102,7 +102,17 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
-            <Button className="h-[2.7rem]" fullWidth>
+            {variant === "SIGNIN" && (
+              <div className="my-1">
+                <Link
+                  href={"/forgotpassword"}
+                  className="underline cursor-pointer text-sm font-extrabold"
+                >
+                  Forgot Password ?
+                </Link>
+              </div>
+            )}
+            <Button disabled={isLoading} className="h-[2.7rem]" fullWidth>
               {variant === "SIGNIN" ? (
                 isLoading ? (
                   <Spinner btn />

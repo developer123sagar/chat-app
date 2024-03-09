@@ -14,6 +14,7 @@ export const POST_SIGNIN = `${AUTH_ROUTE}/signin`;
 export const POST_SIGNUP = `${AUTH_ROUTE}/signup`;
 export const USER_LOG_OUT = `${AUTH_ROUTE}/logout`;
 export const UPDATE_PROFILE = `${AUTH_ROUTE}/profile`;
+export const SEND_FORGOT_PASS_MAIL = `${AUTH_ROUTE}/forgotpassword/send-mail`
 
 export const SEND_MESSAGE = `${MSG_ROUTE}/send-message`;
 export const GET_MESSAGE = `${MSG_ROUTE}/get-message`;
