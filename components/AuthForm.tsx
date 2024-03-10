@@ -48,11 +48,11 @@ const AuthForm = ({ variant, title, api }: AuthFormProps) => {
         toast.error("Username must contain only alphabet characters");
         return;
       }
-      if (!validatePassword(form.password)) {
-        const message = getPasswordValidationMessage(form.password.trim());
-        toast.error(message);
-        return;
-      }
+    }
+    if (!validatePassword(form.password)) {
+      const message = getPasswordValidationMessage(form.password.trim());
+      toast.error(message);
+      return;
     }
     try {
       const res: any = await postAuthForm({ form, api }).unwrap();
