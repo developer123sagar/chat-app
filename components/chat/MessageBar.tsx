@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { usePredictMSGMutation } from "@/redux/api/PredictMsgAPI";
 import {
   useSendImageMutation,
   useSendMessageMutation,
@@ -45,7 +44,6 @@ const MessageBar = () => {
   // rtk query api methods
   const [sendMsg] = useSendMessageMutation();
   const [sendImg] = useSendImageMutation();
-  const [predictMsg] = usePredictMSGMutation();
 
   // checking is user online
   const isOnline = onlineUsers?.some(
