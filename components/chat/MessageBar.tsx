@@ -25,7 +25,7 @@ import {
 import { useSocket } from "@/provider/SocketProvider";
 import { SOCKET_SEND_MESSAGE } from "@/constants";
 import { addMessage } from "@/redux/reducer/MessageReducer";
-import { Emoji, MsgType, PredictMsg } from "@/types";
+import { Emoji, MsgType } from "@/types";
 
 const MessageBar = () => {
   // usestate
@@ -67,9 +67,8 @@ const MessageBar = () => {
   const handleMessageSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setForm({ ...form, message: "" });
-    const res: PredictMsg = await predictMsg(form.message).unwrap();
 
-    if (res.status === 200) {
+
       const msgData = createMessageData(form.message, "text");
       socket.emit(SOCKET_SEND_MESSAGE, msgData);
 
@@ -86,11 +85,6 @@ const MessageBar = () => {
           toast.error(err.error || "Something went wrong");
         }
       }
-    } else if (res.status === 401) {
-      toast.error("Hate Speech Detected");
-    } else {
-      toast.error("Offensive Language Detected");
-    }
   };
 
   const handleEmojiClick = (emoji: Emoji) => {
